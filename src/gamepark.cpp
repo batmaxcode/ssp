@@ -1,6 +1,7 @@
 #include "gamepark.h"
 #include "myeventreceiver.h"
 #include "config/inireader.h"
+#include "RealisticWater.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -140,6 +141,22 @@ int GamePark::initTerrain()
     //video::S3DVertex2TCoords* data = (video::S3DVertex2TCoords*)buffer->getVertexBuffer().getData();
     // Работайте с данными или получите IndexBuffer с аналогичным вызовом.
     buffer->drop(); // При завершении снова сбрасываем буфер
+
+
+    const f32 width = 15120.0f;
+    const f32 height = 15120.0f;
+    std::string resourcePath;
+    #ifdef __APPLE__
+        NSString* path = [[NSBundle mainBundle]resourcePath];
+        resourcePath = [path cStringUsingEncoding:NSASCIIStringEncoding];
+    #endif
+
+    RealisticWaterSceneNode* water = new RealisticWaterSceneNode(smgr(), width, height, "/home/user/qtprojects/gamepark");
+    smgr()->getRootSceneNode()->addChild(water);
+    water->setPosition(core::vector3df(9160,535*2,58440));
+    water->setWaterColor(video::SColorf(0,0.3,0));
+
+
 
     return 0;
 }

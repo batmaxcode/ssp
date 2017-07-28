@@ -14,7 +14,8 @@ SOURCES += \
   src/config/ini.cpp \
   src/config/inireader.cpp \
   src/config/config.cpp \
-  src/player.cpp
+  src/player.cpp \
+  src/RealisticWater.cpp
 
 HEADERS += \
   src/gamepark.h \
@@ -22,7 +23,8 @@ HEADERS += \
   src/config/ini.h \
   src/config/inireader.h \
   src/config/config.h \
-  src/player.h
+  src/player.h \
+  src/RealisticWater.h
 
 LIBS += -L/home/user/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 
