@@ -25,8 +25,8 @@
 #include "RealisticWater.h"
 #include <iostream>
 
-RealisticWaterSceneNode::RealisticWaterSceneNode(scene::ISceneManager* sceneManager, f32 width, f32 height, 
-												 const irr::core::stringc& resourcePath, core::dimension2du renderTargetSize,
+RealisticWaterSceneNode::RealisticWaterSceneNode(scene::ISceneManager* sceneManager, f32 width, f32 height,
+                                                 core::dimension2du renderTargetSize,
 												 scene::ISceneNode* parent, s32 id):
     scene::ISceneNode(parent, sceneManager, id),
     _camera(NULL),
@@ -57,14 +57,13 @@ RealisticWaterSceneNode::RealisticWaterSceneNode(scene::ISceneManager* sceneMana
 
 	if (_videoDriver->getDriverType() == video::EDT_DIRECT3D9)
 	{
-		waterPixelShader = resourcePath + "/shaders/Water_ps.hlsl";
-		waterVertexShader = resourcePath + "/shaders/Water_vs.hlsl";
+        waterPixelShader = "../../shaders/Water_ps.hlsl";
+        waterVertexShader = "../../shaders/Water_vs.hlsl";
 	}
 	else if (_videoDriver->getDriverType() == video::EDT_OPENGL)
 	{
-        waterPixelShader = resourcePath + "/shaders/Water_ps.glsl";
-		waterVertexShader = resourcePath + "/shaders/Water_vs.glsl";
-        std::cout << "----------" << waterPixelShader.c_str() << std::flush << std::endl;
+        waterPixelShader = "../../shaders/Water_ps.glsl";
+        waterVertexShader = "../../shaders/Water_vs.glsl";
 	}
 
 	_shaderMaterial = GPUProgrammingServices->addHighLevelShaderMaterialFromFiles(
@@ -74,7 +73,7 @@ RealisticWaterSceneNode::RealisticWaterSceneNode(scene::ISceneManager* sceneMana
 
 	_waterSceneNode->setMaterialType((video::E_MATERIAL_TYPE)_shaderMaterial);
 
-    irr::video::ITexture* bumpTexture = _videoDriver->getTexture(resourcePath + "/media/waterbump.png");
+    irr::video::ITexture* bumpTexture = _videoDriver->getTexture("../../media/waterbump.png");
     _waterSceneNode->setMaterialTexture(0, bumpTexture);
 
 	_refractionMap = _videoDriver->addRenderTargetTexture(renderTargetSize);

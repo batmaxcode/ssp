@@ -102,6 +102,7 @@ private:
     int initDriver();
     void initEnvironment();
     void initPlayer();
+    int initWater();
     int initWorld();
     int initTerrain();
     int initSkybox();

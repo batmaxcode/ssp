@@ -31,8 +31,7 @@ using namespace irr;
 class RealisticWaterSceneNode: public scene::ISceneNode, video::IShaderConstantSetCallBack
 {
 public:
-	RealisticWaterSceneNode(scene::ISceneManager* sceneManager, f32 width, f32 height,
-							const irr::core::stringc& resourcePath = irr::core::stringc(),
+    RealisticWaterSceneNode(scene::ISceneManager* sceneManager, f32 width, f32 height,
 							core::dimension2du renderTargetSize=core::dimension2du(512,512),scene::ISceneNode* parent = NULL, s32 id = -1);
 	virtual ~RealisticWaterSceneNode();
 

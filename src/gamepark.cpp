@@ -82,11 +82,29 @@ void GamePark::initPlayer()
     smgr()->setActiveCamera(m_player->camera());
 
     m_player->setPosition(9160,535*2,58440);
+    m_player->setPosition(59160,1035*2,58440); // берег у реки
+    m_player->setPosition(59160,1035*2,20440); // берег у залива
+}
+
+int GamePark::initWater()
+{
+    // создаение залива
+    const f32 width = 37120.0f;
+    const f32 height = 75120.0f;
+    RealisticWaterSceneNode* water = new RealisticWaterSceneNode(smgr(), width, height);
+    smgr()->getRootSceneNode()->addChild(water);
+    water->setPosition(core::vector3df(52160,35*2,34840));
+    water->setWaterColor(video::SColorf(0,0.5,0.5));
+    water->setWaveHeight(0.3f);
+    water->setWindForce(10.0f);
+
+    return 0;
 }
 
 int GamePark::initWorld()
 {
     initTerrain();
+    initWater();
     initSkybox();
     initLight();
     return 0;
@@ -141,22 +159,6 @@ int GamePark::initTerrain()
     //video::S3DVertex2TCoords* data = (video::S3DVertex2TCoords*)buffer->getVertexBuffer().getData();
     // Работайте с данными или получите IndexBuffer с аналогичным вызовом.
     buffer->drop(); // При завершении снова сбрасываем буфер
-
-
-    const f32 width = 15120.0f;
-    const f32 height = 15120.0f;
-    std::string resourcePath;
-    #ifdef __APPLE__
-        NSString* path = [[NSBundle mainBundle]resourcePath];
-        resourcePath = [path cStringUsingEncoding:NSASCIIStringEncoding];
-    #endif
-
-    RealisticWaterSceneNode* water = new RealisticWaterSceneNode(smgr(), width, height, "/home/user/qtprojects/gamepark");
-    smgr()->getRootSceneNode()->addChild(water);
-    water->setPosition(core::vector3df(9160,535*2,58440));
-    water->setWaterColor(video::SColorf(0,0.3,0));
-
-
 
     return 0;
 }
