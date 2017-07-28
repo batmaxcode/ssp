@@ -82,8 +82,9 @@ void GamePark::initPlayer()
     smgr()->setActiveCamera(m_player->camera());
 
     m_player->setPosition(9160,535*2,58440);
-    m_player->setPosition(59160,1035*2,58440); // берег у реки
-    m_player->setPosition(59160,1035*2,20440); // берег у залива
+    m_player->setPosition(29160,535*2,50440); // озера
+//    m_player->setPosition(59160,1035*2,58440); // берег у реки
+//    m_player->setPosition(59160,1035*2,20440); // берег у залива
 }
 
 int GamePark::initWater()
@@ -97,6 +98,29 @@ int GamePark::initWater()
     water->setWaterColor(video::SColorf(0,0.5,0.5));
     water->setWaveHeight(0.3f);
     water->setWindForce(10.0f);
+
+    // создание озер
+    scene::IAnimatedMesh* mesh = smgr()->addHillPlaneMesh( "myHill",
+        core::dimension2d<f32>(200,460),
+        core::dimension2d<u32>(60,60), 0, 0,
+        core::dimension2d<f32>(0,0),
+        core::dimension2d<f32>(60,60));
+    scene::ISceneNode* waternode = 0;
+    waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
+    waternode->setPosition(core::vector3df(35860,105*2,45900));
+    waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    waternode->setMaterialTexture(0, driver()->getTexture("../../media/dirty2.jpg"));
+    waternode->setMaterialTexture(1, driver()->getTexture("../../media/water_dirty.jpg"));
+
+    waternode->getMaterial(0).getTextureMatrix(0).setTextureScale(0.5, 1);
+    waternode->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
+    //waternode->getMaterial(1).getTextureMatrix(1).setTextureScale(length/2, 1);
+    //waternode->getMaterial(1).TextureLayer->TextureWrapU = video::ETC_REPEAT;
+
+    waternode->setMaterialType(video::EMT_REFLECTION_2_LAYER);
+
+    //moveNode = waternode;
+    mesh->drop();
 
     return 0;
 }
