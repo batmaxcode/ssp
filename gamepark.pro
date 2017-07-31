@@ -27,9 +27,11 @@ HEADERS += \
   src/RealisticWater.h
 
 LIBS += -L/home/user/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
+#LIBS += -L/home/user/irrlicht-1.7.3/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 
 
 INCLUDEPATH += /home/user/irrlicht-1.8.4/include
+#INCLUDEPATH += /home/user/irrlicht-1.7.3/include
 INCLUDEPATH += src
 
 OTHER_FILES += $$PWD/config/config.ini

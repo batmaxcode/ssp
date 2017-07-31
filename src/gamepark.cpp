@@ -84,7 +84,7 @@ void GamePark::initPlayer()
     m_player->setPosition(9160,535*2,58440);
     m_player->setPosition(29160,535*2,50440); // озера
 //    m_player->setPosition(59160,1035*2,58440); // берег у реки
-//    m_player->setPosition(59160,1035*2,20440); // берег у залива
+    m_player->setPosition(59160,1035*2,20440); // берег у залива
 }
 
 int GamePark::initWater()
