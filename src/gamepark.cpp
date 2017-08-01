@@ -82,9 +82,9 @@ void GamePark::initPlayer()
     smgr()->setActiveCamera(m_player->camera());
 
     m_player->setPosition(9160,535*2,58440);
-    m_player->setPosition(29160,535*2,50440); // озера
+//    m_player->setPosition(29160,535*2,50440); // озера
 //    m_player->setPosition(59160,1035*2,58440); // берег у реки
-    m_player->setPosition(59160,1035*2,20440); // берег у залива
+//    m_player->setPosition(59160,1035*2,20440); // берег у залива
 }
 
 int GamePark::initWater()
@@ -131,6 +131,7 @@ int GamePark::initWorld()
     initWater();
     initSkybox();
     initLight();
+    initTestObj();
     return 0;
 }
 
@@ -232,6 +233,105 @@ int GamePark::initReceiver()
     // создаем event receiver
     receiver = new MyEventReceiver(this);
     m_device->setEventReceiver(receiver);
+    return 0;
+}
+
+int GamePark::initTestObj()
+{
+    scene::IAnimatedMesh* roomMesh = smgr()->getMesh("../../media/models/turt.b3d");
+    scene::ISceneNode* room = 0;
+driver()->setTextureCreationFlag(video::ETCF_ALWAYS_32_BIT, true);
+    if (roomMesh)
+    {
+        // The Room mesh doesn't have proper Texture Mapping on the
+        // floor, so we can recreate them on runtime
+        smgr()->getMeshManipulator()->makePlanarTextureMapping(
+                roomMesh->getMesh(0), 0.003f);
+        video::ITexture* normalMap =
+                    driver()->getTexture("../../media/rock_bw.png");
+
+        if (normalMap)
+            driver()->makeNormalMapTexture(normalMap, 19.0f);
+
+
+        scene::IMesh* tangentMesh = smgr()->getMeshManipulator()->
+                        createMeshWithTangents(roomMesh->getMesh(0));
+
+        room = smgr()->addMeshSceneNode(tangentMesh);
+        room->setMaterialTexture(0,
+                driver()->getTexture("../../media/rock.jpg"));
+        room->setMaterialTexture(1, normalMap);
+
+        // Stones don't glitter..
+        room->getMaterial(0).SpecularColor.set(0,0,0,0);
+        room->getMaterial(0).Shininess = 0.f;
+
+
+        room->setMaterialType(video::EMT_PARALLAX_MAP_SOLID);
+        // adjust height for parallax effect
+        room->getMaterial(0).MaterialTypeParam = 1.f / 14.f;
+        room->setPosition(m_player->camera()->getPosition());
+        room->setScale(core::vector3df(65.0f,65.0f,65.0f));
+
+        // drop mesh because we created it with a create.. call.
+        tangentMesh->drop();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/turt.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    scene::IAnimatedMeshSceneNode* node = smgr()->addAnimatedMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(core::vector3df(65.0f,65.0f,65.0f));
+////        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setPosition(m_player->camera()->getPosition());
+//        //node->addShadowVolumeSceneNode();
+//       // node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+//        node->setMaterialTexture( 0, driver()->getTexture("../../media/rock.jpg") );
+
+//        // load heightmap, create normal map from it and set it
+
+//        // load heightmap, create normal map from it and set it
+////                video::ITexture* earthNormalMap = driver()->getTexture("../../media/rock_bw.png");
+////                if (earthNormalMap)
+////                {
+////                    driver()->makeNormalMapTexture(earthNormalMap, 1.0f);
+////                    node->setMaterialTexture(1, earthNormalMap);
+////                    node->setMaterialType(video::EMT_NORMAL_MAP_TRANSPARENT_VERTEX_ALPHA);
+//////                    node->setMaterialType(video::EMT_NORMAL_MAP_TRANSPARENT_ADD_COLOR);
+////                }
+
+
+////        node->getMaterial(1).Shininess = 1.0f;
+////        node->getMaterial(1).SpecularColor.set(255,255,255,255);
+////        node->getMaterial(1).AmbientColor.set(255,255,255,255);
+////        node->getMaterial(1).DiffuseColor.set(255,255,255,255);
+////        node->getMaterial(1).EmissiveColor.set(0,0,0,0);
+
+
+//        node->setMaterialTexture(1, driver()->getTexture("../../media/rock.jpg"));
+//        node->setMaterialType(video:: EMT_ONETEXTURE_BLEND);
+
+
+
+//    }
     return 0;
 }
 

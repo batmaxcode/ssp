@@ -108,7 +108,7 @@ private:
     int initSkybox();
     int initLight();
     int initReceiver();
-
+    int initTestObj();
 
 };
 
