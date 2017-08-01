@@ -109,6 +109,7 @@ private:
     int initLight();
     int initReceiver();
     int initTestObj();
+    int initForest();
 
 };
 
