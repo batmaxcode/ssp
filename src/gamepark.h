@@ -98,7 +98,9 @@ private:
     MyEventReceiver* receiver = nullptr;
     gui::IGUIStaticText* m_controlText = nullptr;
     gui::IGUIStaticText* m_fpsText = nullptr;
+    scene::IAnimatedMeshSceneNode* m_forest;
 
+    void forestLOD(core::vector3df pos);
     int initDriver();
     void initEnvironment();
     void initPlayer();

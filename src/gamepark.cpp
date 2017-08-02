@@ -277,7 +277,7 @@ int GamePark::initTestObj()
 int GamePark::initForest()
 {
     core::vector3df pos = core::vector3df(9160,155*2,58440);
-    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/tree_spherical_high_1.b3d");
+    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/tree_spherical_high_2.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -292,8 +292,9 @@ int GamePark::initForest()
         node->setPosition(pos);
         node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
     }
+    m_forest = node;
 
-    mesh = smgr()->getMesh("../../media/models/tree_spherical_low_1.b3d");
+    mesh = smgr()->getMesh("../../media/models/tree_spherical_low_2.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -355,14 +356,23 @@ Player *GamePark::player() const
     return m_player;
 }
 
+void GamePark::forestLOD(core::vector3df pos)
+{
+
+        float dist = m_forest->getPosition().getDistanceFrom(pos);
+        std::cout<<"OY "<< dist << std::endl<<std::flush;
+
+        if(dist < 5000 && !m_forest->isVisible()){
+            m_forest->setVisible(true);
+        }
+        else if(dist > 5000 && m_forest->isVisible()){
+            m_forest->setVisible(false);
+        }
+}
+
 
 int GamePark::run()
 {
-
-
-
-
-
 
     /*
     That's it, draw everything.
@@ -382,7 +392,7 @@ int GamePark::run()
     // дадим билборду ID для объектов которые не реагируют на столкновения.
     bill->setID(ID_IsNotPickable);
     scene::ISceneCollisionManager*  collMan;
-    video::SMaterial material;
+//    video::SMaterial material;
 
 
 
@@ -391,6 +401,8 @@ int GamePark::run()
     if (m_device->isWindowActive())
     {
         driver()->beginScene(true, true, 0 );
+
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
         env()->drawAll();
