@@ -130,6 +130,7 @@ int GamePark::initWorld()
     initTerrain();
     initWater();
     initForest();
+    initRoads();
     initSkybox();
     initLight();
     initTestObj();
@@ -276,8 +277,8 @@ int GamePark::initTestObj()
 
 int GamePark::initForest()
 {
-    core::vector3df pos = core::vector3df(9160,155*2,58440);
-    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/tree_spherical_high_2.b3d");
+    core::vector3df pos = core::vector3df(20260,255*2,59560);
+    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/forest_1_1.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -291,10 +292,11 @@ int GamePark::initForest()
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(pos);
         node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
     }
     m_forest = node;
 
-    mesh = smgr()->getMesh("../../media/models/tree_spherical_low_2.b3d");
+    mesh = smgr()->getMesh("../../media/models/forest_1_1_low.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -308,8 +310,39 @@ int GamePark::initForest()
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
         node->setPosition(pos);
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1.png") );
+        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
+
     }
+    mesh->drop();
+    return 0;
+}
+
+int GamePark::initRoads()
+{
+    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/road.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IAnimatedMeshSceneNode* node = smgr()->addAnimatedMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(124.0f,124.0f,124.0f));
+        node->setRotation(core::vector3df(0,180,0));
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setPosition(core::vector3df(9730*2,150*2,26555*2));
+        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+        node->setMaterialTexture( 0, driver()->getTexture("../../media/asphalt.jpg") );
+        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(200,200);
+        //node->setMaterialType(video::EMT_DETAIL_MAP);
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+
+    }
+//    setCollision(node,camera,smgr);
+
     mesh->drop();
     return 0;
 }
@@ -362,10 +395,10 @@ void GamePark::forestLOD(core::vector3df pos)
         float dist = m_forest->getPosition().getDistanceFrom(pos);
         std::cout<<"OY "<< dist << std::endl<<std::flush;
 
-        if(dist < 5000 && !m_forest->isVisible()){
+        if(dist < 35000 && !m_forest->isVisible()){
             m_forest->setVisible(true);
         }
-        else if(dist > 5000 && m_forest->isVisible()){
+        else if(dist > 35000 && m_forest->isVisible()){
             m_forest->setVisible(false);
         }
 }
