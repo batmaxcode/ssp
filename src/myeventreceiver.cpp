@@ -14,9 +14,10 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
     IrrlichtDevice* device = m_gamePark->device();
     scene::ITerrainSceneNode* terrain = m_gamePark->terrain;
     video::IVideoDriver* driver = m_gamePark->driver();
-    scene::ISceneNode* moveNode = m_gamePark->moveNode;
+    scene::ISceneNode* moveNode = m_gamePark->movableNode();
 
-    int moveDist = m_gamePark->moveDist;
+    int moveDist = 10;
+    f32 scaleCoef = 0.2f;
 
 
     if (event.EventType == irr::EET_KEY_INPUT_EVENT )
@@ -110,6 +111,22 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
             std::cout << moveNode->getPosition().X << " " <<
                          moveNode->getPosition().Y << " " <<
                          moveNode->getPosition().Z << std::endl << std::flush;
+            return true;
+        case irr::KEY_PLUS:
+            moveNode->setScale(core::vector3df(moveNode->getScale().X + scaleCoef,
+                                               moveNode->getScale().Y + scaleCoef,
+                                               moveNode->getScale().Z + scaleCoef));
+            std::cout << moveNode->getScale().X << " " <<
+                         moveNode->getScale().Y << " " <<
+                         moveNode->getScale().Z << std::endl << std::flush;
+            return true;
+        case irr::KEY_MINUS:
+            moveNode->setScale(core::vector3df(moveNode->getScale().X - scaleCoef,
+                                               moveNode->getScale().Y - scaleCoef,
+                                               moveNode->getScale().Z - scaleCoef));
+            std::cout << moveNode->getScale().X << " " <<
+                         moveNode->getScale().Y << " " <<
+                         moveNode->getScale().Z << std::endl << std::flush;
             return true;
 
         default:

@@ -7,7 +7,8 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-GamePark::GamePark()
+GamePark::GamePark() :
+    m_checkLodCounter(0)
 {
     m_config.load("../../config/config.ini");
 
@@ -277,7 +278,8 @@ int GamePark::initTestObj()
 
 int GamePark::initForest()
 {
-    core::vector3df pos = core::vector3df(20260,255*2,59560);
+    core::vector3df pos = core::vector3df(20000,260*2,59360);
+    core::vector3df scale = core::vector3df(70.0f,70.0f,70.0f);
     scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/forest_1_1.b3d");
     if (!mesh)
     {
@@ -287,13 +289,15 @@ int GamePark::initForest()
     scene::IAnimatedMeshSceneNode* node = smgr()->addAnimatedMeshSceneNode( mesh );
     if (node)
     {
-        node->setScale(core::vector3df(65.0f,65.0f,65.0f));
+        node->setScale(scale);
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(pos);
+        node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
     }
+    setCollision(node, m_player);
     m_forest = node;
 
     mesh = smgr()->getMesh("../../media/models/forest_1_1_low.b3d");
@@ -305,11 +309,12 @@ int GamePark::initForest()
     node = smgr()->addAnimatedMeshSceneNode( mesh );
     if (node)
     {
-        node->setScale(core::vector3df(65.0f,65.0f,65.0f));
+        node->setScale(scale);
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
         node->setPosition(pos);
+        node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
 
     }
@@ -341,10 +346,23 @@ int GamePark::initRoads()
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
 
     }
-//    setCollision(node,camera,smgr);
-
+    setCollision(node,m_player);
+//    m_movableNode = node;
     mesh->drop();
     return 0;
+}
+
+void GamePark::setCollision(scene::IAnimatedMeshSceneNode *node, Player *player)
+{
+    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
+    node->setTriangleSelector(selector);
+    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
+    selector,
+    player->camera(),player->ellipsoid(),
+    core::vector3df(0,0,0),core::vector3df(0,60,0));
+    selector->drop();
+    player->camera()->addAnimator(anim);
+    anim->drop();
 }
 
 void GamePark::switchTerrainMaterial(video::E_MATERIAL_FLAG material)
@@ -389,18 +407,36 @@ Player *GamePark::player() const
     return m_player;
 }
 
+scene::IAnimatedMeshSceneNode *GamePark::movableNode() const
+{
+    return m_movableNode;
+}
+
 void GamePark::forestLOD(core::vector3df pos)
 {
+    int frame = 12;
 
+    if(m_checkLodCounter == frame)
+    {
         float dist = m_forest->getPosition().getDistanceFrom(pos);
-        std::cout<<"OY "<< dist << std::endl<<std::flush;
-
-        if(dist < 35000 && !m_forest->isVisible()){
+        //std::cout<<"OY "<< dist << std::endl<<std::flush;
+        if(dist < 25000 && !m_forest->isVisible()){
             m_forest->setVisible(true);
         }
-        else if(dist > 35000 && m_forest->isVisible()){
+        else if(dist > 25000 && m_forest->isVisible()){
             m_forest->setVisible(false);
         }
+    }
+    //-----------------------------------
+    if(m_checkLodCounter < frame)
+    {
+        m_checkLodCounter++;
+    }
+    else
+    {
+        m_checkLodCounter = 0;
+    }
+
 }
 
 
@@ -472,11 +508,11 @@ int GamePark::run()
 
 
 
-        if(selectedSceneNode && isFire)
+        if(selectedSceneNode && m_player->animationFire())
         {
             bill->setPosition(intersection);
-
-            log( selectedSceneNode->getName() );
+            m_movableNode = (scene::IAnimatedMeshSceneNode*)selectedSceneNode;
+//            log( selectedSceneNode->getName() );
             //usl_slow_exit = false;
 
             // мы должны сбросить трансформации перед отрисовкой.
@@ -502,6 +538,7 @@ int GamePark::run()
         int fps = driver()->getFPS();
         int count = driver()->getPrimitiveCountDrawn();
         if (lastFPS != fps)
+//        if(m_checkLodCounter == 12)
         {
             core::stringw str = L"Driver [";
             str += driver()->getName();

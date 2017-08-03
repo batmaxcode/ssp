@@ -67,7 +67,6 @@ public:
     scene::ITerrainSceneNode* terrain = nullptr;
 
     io::IReadFile *heightmap = nullptr;
-    scene::ISceneNode* moveNode = nullptr;
     Config m_config;
 
     bool shadows = true;
@@ -78,7 +77,6 @@ public:
     bool isFire = false;
     bool usl_exit = false;
 
-    int moveDist = 500;
 
     bool key_w = false;
     bool key_a = false;
@@ -90,6 +88,8 @@ public:
 
     Player *player() const;
 
+    scene::IAnimatedMeshSceneNode *movableNode() const;
+
 private:
     IrrlichtDevice* m_device = nullptr;
     Player* m_player = nullptr;
@@ -98,7 +98,9 @@ private:
     MyEventReceiver* receiver = nullptr;
     gui::IGUIStaticText* m_controlText = nullptr;
     gui::IGUIStaticText* m_fpsText = nullptr;
-    scene::IAnimatedMeshSceneNode* m_forest;
+    scene::IAnimatedMeshSceneNode* m_forest = nullptr;
+    scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
+    unsigned short m_checkLodCounter;
 
     void forestLOD(core::vector3df pos);
     int initDriver();
@@ -113,6 +115,8 @@ private:
     int initTestObj();
     int initForest();
     int initRoads();
+    void setCollision(scene::IAnimatedMeshSceneNode* node,
+                      Player* player);
 
 };
 

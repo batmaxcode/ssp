@@ -40,7 +40,8 @@ Player::Player(IrrlichtDevice* device) :
 
     // camera
     // 1.2 move speed
-    m_camera = m_device->getSceneManager()->addCameraSceneNodeFPS(0, 100.0f, 3.2f, -1, keyMap, 9, false, 3.f);
+    // 3.2 fast move
+    m_camera = m_device->getSceneManager()->addCameraSceneNodeFPS(0, 100.0f, 4.2f, -1, keyMap, 9, false, 3.f);
     m_camera->setPosition(core::vector3df(10700*2,5085*2,27600*2)); // light
     m_camera->setTarget(core::vector3df(4897*2,343*2,17800*2));
     m_camera->setFarValue(42000.0f);
@@ -185,6 +186,11 @@ void Player::setMouseButtonPressed(EMOUSE_INPUT_EVENT event)
 void Player::setPosition(f32 x, f32 y, f32 z)
 {
     camera()->setPosition(core::vector3df(x,y,z));
+}
+
+bool Player::animationFire() const
+{
+    return m_animationFire;
 }
 
 void Player::setKeyPressed(EKEY_CODE key, bool pressed)

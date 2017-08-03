@@ -17,6 +17,8 @@ public:
     void setKeyPressed(irr::EKEY_CODE key, bool pressed);
     void setMouseButtonPressed(irr::EMOUSE_INPUT_EVENT event);
     void setPosition(irr::f32 x, irr::f32 y, irr::f32 z);
+    bool animationFire() const;
+
 private:
     irr::scene::ICameraSceneNode* m_camera;
     irr::IrrlichtDevice* m_device;
