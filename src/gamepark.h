@@ -98,7 +98,7 @@ private:
     MyEventReceiver* receiver = nullptr;
     gui::IGUIStaticText* m_controlText = nullptr;
     gui::IGUIStaticText* m_fpsText = nullptr;
-    scene::IAnimatedMeshSceneNode* m_forest = nullptr;
+    scene::IMeshSceneNode* m_forest = nullptr;
     scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
     unsigned short m_checkLodCounter;
 
@@ -116,6 +116,8 @@ private:
     int initForest();
     int initRoads();
     void setCollision(scene::IAnimatedMeshSceneNode* node,
+                      Player* player);
+    void setCollision(scene::IMeshSceneNode* node,
                       Player* player);
 
 };

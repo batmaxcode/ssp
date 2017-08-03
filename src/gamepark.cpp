@@ -280,13 +280,13 @@ int GamePark::initForest()
 {
     core::vector3df pos = core::vector3df(20000,260*2,59360);
     core::vector3df scale = core::vector3df(70.0f,70.0f,70.0f);
-    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/forest_1_1.b3d");
+    scene::IMesh* mesh = smgr()->getMesh("../../media/models/forest_1_1.b3d");
     if (!mesh)
     {
         m_device->drop();
         return 1;
     }
-    scene::IAnimatedMeshSceneNode* node = smgr()->addAnimatedMeshSceneNode( mesh );
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
     if (node)
     {
         node->setScale(scale);
@@ -306,7 +306,7 @@ int GamePark::initForest()
         m_device->drop();
         return 1;
     }
-    node = smgr()->addAnimatedMeshSceneNode( mesh );
+    node = smgr()->addMeshSceneNode( mesh );
     if (node)
     {
         node->setScale(scale);
@@ -324,16 +324,16 @@ int GamePark::initForest()
 
 int GamePark::initRoads()
 {
-    scene::IAnimatedMesh* mesh = smgr()->getMesh("../../media/models/road.b3d");
+    scene::IMesh* mesh = smgr()->getMesh("../../media/models/road.b3d");
     if (!mesh)
     {
         m_device->drop();
         return 1;
     }
-    scene::IAnimatedMeshSceneNode* node = smgr()->addAnimatedMeshSceneNode( mesh );
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
     if (node)
     {
-        node->setScale(core::vector3df(124.0f,124.0f,124.0f));
+        node->setScale(core::vector3df(123.4f,123.4f,123.4f));
         node->setRotation(core::vector3df(0,180,0));
 //        node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
@@ -347,12 +347,24 @@ int GamePark::initRoads()
 
     }
     setCollision(node,m_player);
-//    m_movableNode = node;
     mesh->drop();
     return 0;
 }
 
 void GamePark::setCollision(scene::IAnimatedMeshSceneNode *node, Player *player)
+{
+    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
+    node->setTriangleSelector(selector);
+    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
+    selector,
+    player->camera(),player->ellipsoid(),
+    core::vector3df(0,0,0),core::vector3df(0,60,0));
+    selector->drop();
+    player->camera()->addAnimator(anim);
+    anim->drop();
+}
+
+void GamePark::setCollision(scene::IMeshSceneNode *node, Player *player)
 {
     scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
     node->setTriangleSelector(selector);
