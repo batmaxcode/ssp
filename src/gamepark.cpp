@@ -320,7 +320,7 @@ int GamePark::initForest()
     }
     mesh->drop();
     //-----------------------------------------
-    pos = core::vector3df(20000,260*2,59360);
+    pos = core::vector3df(43630,260*2,49760);
     scale = core::vector3df(70.0f,70.0f,70.0f);
     mesh = smgr()->getMesh("../../media/models/forest_2.b3d");
     if (!mesh)
@@ -340,7 +340,7 @@ int GamePark::initForest()
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
     }
     setCollision(node, m_player);
-    m_forest = node;
+    m_forest2 = node;
 
     mesh = smgr()->getMesh("../../media/models/forest_2_low.b3d");
     if (!mesh)
@@ -479,6 +479,14 @@ void GamePark::forestLOD(core::vector3df pos)
         }
         else if(dist > 25000 && m_forest->isVisible()){
             m_forest->setVisible(false);
+        }
+
+        dist = m_forest2->getPosition().getDistanceFrom(pos);
+        if(dist < 25000 && !m_forest2->isVisible()){
+            m_forest2->setVisible(true);
+        }
+        else if(dist > 25000 && m_forest2->isVisible()){
+            m_forest2->setVisible(false);
         }
     }
     //-----------------------------------
