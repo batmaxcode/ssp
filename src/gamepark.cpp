@@ -509,7 +509,7 @@ int GamePark::run()
     That's it, draw everything.
     */
 
-    int lastFPS = -1;
+//    int lastFPS = -1;
 
     scene::IBillboardSceneNode * bill;
     // Добавляем билборд, который будет подсвечивать место
@@ -599,8 +599,8 @@ int GamePark::run()
         // display frames per second in window title
         int fps = driver()->getFPS();
         int count = driver()->getPrimitiveCountDrawn();
-        if (lastFPS != fps)
-//        if(m_checkLodCounter == 12)
+//        if (lastFPS != fps)
+        if(m_checkLodCounter == 12)
         {
             core::stringw str = L"Driver [";
             str += driver()->getName();
@@ -614,8 +614,8 @@ int GamePark::run()
             str += " Triangle: ";
             str += count;
 
-            m_device->setWindowCaption(str.c_str());
-            lastFPS = fps;
+//            m_device->setWindowCaption(str.c_str());
+//            lastFPS = fps;
 
             updateEnvironment(str);
         }
