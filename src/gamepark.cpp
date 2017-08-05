@@ -106,7 +106,7 @@ int GamePark::initWater()
         core::dimension2d<u32>(60,60), 0, 0,
         core::dimension2d<f32>(0,0),
         core::dimension2d<f32>(60,60));
-    scene::ISceneNode* waternode = 0;
+    scene::ISceneNode* waternode = nullptr;
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(35860,105*2,45900));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -120,7 +120,26 @@ int GamePark::initWater()
 
     waternode->setMaterialType(video::EMT_REFLECTION_2_LAYER);
 
-    //moveNode = waternode;
+    mesh->drop();
+    //---------------------------------------------
+
+    mesh = smgr()->addHillPlaneMesh( "myHill2",
+        core::dimension2d<f32>(400,300),
+        core::dimension2d<u32>(43,40), 0, 0,
+        core::dimension2d<f32>(0,0),
+        core::dimension2d<f32>(60,60));
+    waternode = nullptr;
+    waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
+    waternode->setPosition(core::vector3df(51060,105*2,29800));
+    waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    waternode->setMaterialTexture(0, driver()->getTexture("../../media/dirty2.jpg"));
+    waternode->setMaterialTexture(1, driver()->getTexture("../../media/water_dirty.jpg"));
+
+    waternode->getMaterial(0).getTextureMatrix(0).setTextureScale(1, 1);
+    waternode->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
+
+    waternode->setMaterialType(video::EMT_REFLECTION_2_LAYER);
+    m_movableNode = (scene::IAnimatedMeshSceneNode*)waternode;
     mesh->drop();
 
     return 0;
@@ -278,89 +297,102 @@ int GamePark::initTestObj()
 
 int GamePark::initForest()
 {
-    core::vector3df pos = core::vector3df(20000,260*2,59360);
+    core::vector3df pos[m_forestSize];
+    pos[0] = core::vector3df(20000,260*2,59360);
+    pos[1] = core::vector3df(43630,260*2,49760);
+    pos[2] = core::vector3df(15060,260*2,33010);
     core::vector3df scale = core::vector3df(70.0f,70.0f,70.0f);
-    scene::IMesh* mesh = smgr()->getMesh("../../media/models/forest_1_1.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(scale);
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(pos);
-        node->setRotation(core::vector3df(0,180,0));
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
-        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
-    }
-    setCollision(node, m_player);
-    m_forest = node;
 
-    mesh = smgr()->getMesh("../../media/models/forest_1_1_low.b3d");
-    if (!mesh)
+    for(int i=0;i<m_forestSize;i++)
     {
-        m_device->drop();
-        return 1;
-    }
-    node = smgr()->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(scale);
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-        node->setPosition(pos);
-        node->setRotation(core::vector3df(0,180,0));
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
+        core::stringc postfix = core::stringc(i+1)+".b3d";
+        core::stringc postfixLow = core::stringc(i+1)+"_low.b3d";
+        scene::IMesh* mesh = smgr()->getMesh(core::stringc("../../media/models/forest_")+
+                                             postfix);
+        if (!mesh)
+        {
+            m_device->drop();
+            return 1;
+        }
+        scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+        if (node)
+        {
+            node->setScale(scale);
+            node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+            node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+            node->setPosition(pos[i]);
+            node->setRotation(core::vector3df(0,180,0));
+            node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
+            node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        }
+//        setCollision(node, m_player);
+        m_forest[i] = node;
 
+        mesh = smgr()->getMesh(core::stringc("../../media/models/forest_")+
+                               postfixLow);
+        if (!mesh)
+        {
+            m_device->drop();
+            return 1;
+        }
+        node = smgr()->addMeshSceneNode( mesh );
+        if (node)
+        {
+            node->setScale(scale);
+            node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+            node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+            node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+            node->setPosition(pos[i]);
+            node->setRotation(core::vector3df(0,180,0));
+            node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
+
+        }
+        mesh->drop();
     }
-    mesh->drop();
+
+
     //-----------------------------------------
-    pos = core::vector3df(43630,260*2,49760);
-    scale = core::vector3df(70.0f,70.0f,70.0f);
-    mesh = smgr()->getMesh("../../media/models/forest_2.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    node = smgr()->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(scale);
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(pos);
-        node->setRotation(core::vector3df(0,180,0));
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
-        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
-    }
-    setCollision(node, m_player);
-    m_forest2 = node;
+//    pos =
+//    scale = core::vector3df(70.0f,70.0f,70.0f);
+//    mesh = smgr()->getMesh("../../media/models/forest_2.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    node = smgr()->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(scale);
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setPosition(pos);
+//        node->setRotation(core::vector3df(0,180,0));
+//        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
+//        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+//    }
+//    setCollision(node, m_player);
+//    m_forest[1] = node;
 
-    mesh = smgr()->getMesh("../../media/models/forest_2_low.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    node = smgr()->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(scale);
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-        node->setPosition(pos);
-        node->setRotation(core::vector3df(0,180,0));
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
+//    mesh = smgr()->getMesh("../../media/models/forest_2_low.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    node = smgr()->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(scale);
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+//        node->setPosition(pos);
+//        node->setRotation(core::vector3df(0,180,0));
+//        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
 
-    }
-    mesh->drop();
+//    }
+//    mesh->drop();
     return 0;
 }
 
@@ -472,21 +504,16 @@ void GamePark::forestLOD(core::vector3df pos)
 
     if(m_checkLodCounter == frame)
     {
-        float dist = m_forest->getPosition().getDistanceFrom(pos);
-        //std::cout<<"OY "<< dist << std::endl<<std::flush;
-        if(dist < 25000 && !m_forest->isVisible()){
-            m_forest->setVisible(true);
-        }
-        else if(dist > 25000 && m_forest->isVisible()){
-            m_forest->setVisible(false);
-        }
-
-        dist = m_forest2->getPosition().getDistanceFrom(pos);
-        if(dist < 25000 && !m_forest2->isVisible()){
-            m_forest2->setVisible(true);
-        }
-        else if(dist > 25000 && m_forest2->isVisible()){
-            m_forest2->setVisible(false);
+        float dist;
+        for(int i=0;i<m_forestSize;i++)
+        {
+            dist = m_forest[i]->getPosition().getDistanceFrom(pos);
+            if(dist < 25000 && !m_forest[i]->isVisible()){
+                m_forest[i]->setVisible(true);
+            }
+            else if(dist > 25000 && m_forest[i]->isVisible()){
+                m_forest[i]->setVisible(false);
+            }
         }
     }
     //-----------------------------------
