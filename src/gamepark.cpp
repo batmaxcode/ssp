@@ -34,6 +34,21 @@ void GamePark::exit()
     usl_exit = true;
 }
 
+int GamePark::initWorld()
+{
+    initTerrain();
+    initWater();
+    initForest();
+    initRoads();
+    initCurb();
+    initPlanes();
+    initSkybox();
+    initLight();
+    initTestObj();
+    return 0;
+}
+
+
 int GamePark::initDriver()
 {
     // создаем device c настройками взятыми из файла конифгурации,
@@ -142,19 +157,6 @@ int GamePark::initWater()
     m_movableNode = (scene::IAnimatedMeshSceneNode*)waternode;
     mesh->drop();
 
-    return 0;
-}
-
-int GamePark::initWorld()
-{
-    initTerrain();
-    initWater();
-    initForest();
-    initRoads();
-    initCurb();
-    initSkybox();
-    initLight();
-    initTestObj();
     return 0;
 }
 
@@ -444,8 +446,10 @@ int GamePark::initCurb()
         node->setPosition(core::vector3df(9730*2,150*2,26555*2));
         //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
         node->setMaterialTexture( 0, driver()->getTexture("../../media/curb2.jpg") );
-        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
-        node->getMaterial(0).getTextureMatrix(0).setTextureScale(4,4);
+//        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(40,40);
+        node->getMaterial(1).getTextureMatrix(0).setTextureScale(40,40);
+        node->getMaterial(2).getTextureMatrix(0).setTextureScale(40,40);
         //node->setMaterialType(video::EMT_DETAIL_MAP);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
 
@@ -454,6 +458,36 @@ int GamePark::initCurb()
     }
     setCollision(node,m_player);
     mesh->drop();
+    return 0;
+}
+
+int GamePark::initPlanes()
+{
+    scene::IMesh* mesh = smgr()->getMesh("../../media/models/main_plane.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(45.0f,45.0f,45.0f));
+        node->setRotation(core::vector3df(0,90,0));
+        if(!shadows)
+            node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setPosition(core::vector3df(7950*2,150*2,29850*2));
+        node->setMaterialTexture( 0, driver()->getTexture("../../media/plita-daleko.png") );
+        node->setMaterialTexture( 1, driver()->getTexture("../../media/plita-2.jpg") );
+        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+
+        node->setMaterialType(video::EMT_DETAIL_MAP);
+
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+
+    }
+    setCollision(node,m_player);
     return 0;
 }
 
