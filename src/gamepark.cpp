@@ -151,6 +151,7 @@ int GamePark::initWorld()
     initWater();
     initForest();
     initRoads();
+    initCurb();
     initSkybox();
     initLight();
     initTestObj();
@@ -425,6 +426,37 @@ int GamePark::initRoads()
     return 0;
 }
 
+int GamePark::initCurb()
+{
+    scene::IMesh* mesh = smgr()->getMesh("../../media/models/curb.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(123.4f,123.4f,123.4f));
+        node->setRotation(core::vector3df(0,180,0));
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setPosition(core::vector3df(9730*2,150*2,26555*2));
+        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+        node->setMaterialTexture( 0, driver()->getTexture("../../media/curb2.jpg") );
+        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(4,4);
+        //node->setMaterialType(video::EMT_DETAIL_MAP);
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+
+//        node->getMaterial(0).getTextureMatrix(0).setTextureScale(200, 200);
+
+    }
+    setCollision(node,m_player);
+    mesh->drop();
+    return 0;
+}
+
 void GamePark::setCollision(scene::IAnimatedMeshSceneNode *node, Player *player)
 {
     scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
@@ -560,7 +592,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-        forestLOD(m_player->camera()->getPosition());
+//        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
         env()->drawAll();
