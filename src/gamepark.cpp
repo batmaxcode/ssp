@@ -115,6 +115,7 @@ int GamePark::initWater()
 //    water->setWaveHeight(0.3f);
 //    water->setWindForce(10.0f);
 
+
     // создание озер
     scene::IAnimatedMesh* mesh = smgr()->addHillPlaneMesh( "myHill",
         core::dimension2d<f32>(200,460),
@@ -146,6 +147,28 @@ int GamePark::initWater()
     waternode = nullptr;
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(51060,105*2,29800));
+    waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    waternode->setMaterialTexture(0, driver()->getTexture("../../media/dirty2.jpg"));
+    waternode->setMaterialTexture(1, driver()->getTexture("../../media/water_dirty.jpg"));
+
+    waternode->getMaterial(0).getTextureMatrix(0).setTextureScale(1, 1);
+    waternode->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
+
+    waternode->setMaterialType(video::EMT_REFLECTION_2_LAYER);
+    m_movableNode = (scene::IAnimatedMeshSceneNode*)waternode;
+    mesh->drop();
+
+    //----------------------------------------------------
+    // создвание залива (без шейдеров)
+
+    mesh = smgr()->addHillPlaneMesh( "myHill3",
+        core::dimension2d<f32>(500,800),
+        core::dimension2d<u32>(90,80), 0, 0,
+        core::dimension2d<f32>(0,0),
+        core::dimension2d<f32>(60,60));
+    waternode = nullptr;
+    waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
+    waternode->setPosition(core::vector3df(48600,95*2,29800));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     waternode->setMaterialTexture(0, driver()->getTexture("../../media/dirty2.jpg"));
     waternode->setMaterialTexture(1, driver()->getTexture("../../media/water_dirty.jpg"));
