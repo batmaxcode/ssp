@@ -327,7 +327,7 @@ int GamePark::initForest()
     pos[0] = core::vector3df(20000,260*2,59360);
     pos[1] = core::vector3df(43630,260*2,49760);
     pos[2] = core::vector3df(15060,260*2,33010);
-    pos[3] = core::vector3df(15060,260*2,33010);
+    pos[3] = core::vector3df(46400,260*2,26800);
     core::vector3df scale = core::vector3df(70.0f,70.0f,70.0f);
 
     for(int i=0;i<m_forestSize;i++)
