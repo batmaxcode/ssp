@@ -38,10 +38,11 @@ int GamePark::initWorld()
 {
     initTerrain();
     initWater();
-    initForest();
+//    initForest();
     initRoads();
     initCurb();
     initPlanes();
+    initWaterpool();
     initSkybox();
     initLight();
     initTestObj();
@@ -98,9 +99,9 @@ void GamePark::initPlayer()
     smgr()->setActiveCamera(m_player->camera());
 
     m_player->setPosition(9160,535*2,58440);
-//    m_player->setPosition(29160,535*2,50440); // озера
+    m_player->setPosition(29160,535*2,50440); // озера
 //    m_player->setPosition(59160,1035*2,58440); // берег у реки
-    m_player->setPosition(59160,1035*2,20440); // берег у залива
+//    m_player->setPosition(59160,1035*2,20440); // берег у залива
 }
 
 int GamePark::initWater()
@@ -180,6 +181,42 @@ int GamePark::initWater()
     m_movableNode = (scene::IAnimatedMeshSceneNode*)waternode;
     mesh->drop();
 
+    return 0;
+}
+
+int GamePark::initWaterpool()
+{
+    scene::IMesh* mesh = smgr()->getMesh("../../media/models/waterpool3.b3d");
+    if (!mesh)
+    {
+        device()->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(770.0f,770.0f,770.0f));
+        if(!shadows)node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        node->setPosition(core::vector3df(4990*2,180*2,29400*2));
+
+        node->setRotation(core::vector3df(0,180,0));
+        //node->addShadowVolumeSceneNode();
+        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setMaterialTexture( 0, driver()->getTexture("../../media/sand3.jpg") );
+        node->setMaterialTexture(1,driver()->getTexture("../../media/shadow.jpg"));
+        node->setMaterialType(video::EMT_LIGHTMAP);
+        node->getMaterial(0).NormalizeNormals = true;
+        node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
+        node->getMaterial(0).getTextureMatrix(1).setTextureScale(0.0405,0.04);
+        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.46,0.48);
+        //cube->getMaterial(0).getTextureMatrix(0).setTextureScale(u/3, v/3);
+        //cube->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
+        //cube->getMaterial(0).TextureLayer->TextureWrapV = video::ETC_REPEAT;
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+
+    }
+    setCollision(node,m_player);
     return 0;
 }
 

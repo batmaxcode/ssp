@@ -109,6 +109,7 @@ private:
     void initEnvironment();
     void initPlayer();
     int initWater();
+    int initWaterpool();
     int initWorld();
     int initTerrain();
     int initSkybox();
