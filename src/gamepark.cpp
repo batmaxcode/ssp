@@ -38,7 +38,7 @@ int GamePark::initWorld()
 {
     initTerrain();
     initWater();
-//    initForest();
+    initForest();
     initRoads();
     initCurb();
     initPlanes();
@@ -687,7 +687,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-//        forestLOD(m_player->camera()->getPosition());
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
         env()->drawAll();
