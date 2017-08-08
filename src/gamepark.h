@@ -98,8 +98,8 @@ private:
     MyEventReceiver* receiver = nullptr;
     gui::IGUIStaticText* m_controlText = nullptr;
     gui::IGUIStaticText* m_fpsText = nullptr;
-    const int m_forestSize = 4;
-    scene::IMeshSceneNode* m_forest[4];
+    const int m_forestSize = 5;
+    scene::IMeshSceneNode* m_forest[5];
 
     scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
     unsigned short m_checkLodCounter;
