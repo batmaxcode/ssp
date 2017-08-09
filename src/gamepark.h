@@ -117,6 +117,7 @@ private:
     int initReceiver();
     int initTestObj();
     int initForest();
+    int initGrass();
     int initRoads();
     int initCurb();
     int initPlanes();

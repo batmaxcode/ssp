@@ -37,8 +37,9 @@ void GamePark::exit()
 int GamePark::initWorld()
 {
     initTerrain();
-    initWater();
+//    initWater();
     initForest();
+    initGrass();
     initRoads();
     initCurb();
     initPlanes();
@@ -69,6 +70,7 @@ int GamePark::initDriver()
     smgr()->setShadowColor(irr::video::SColor(150,0,0,0));		//shadow
     smgr()->setAmbientLight(video::SColorf(0.45,0.45,0.45,0.7)); // shadow color
     driver()->setTextureCreationFlag(video::ETCF_ALWAYS_32_BIT, true);
+    driver()->setFog(video::SColor(128,40,40,40), video::EFT_FOG_LINEAR, 250, 12000, .000f, true, false);
     m_device->getCursorControl()->setVisible(false);
 
 
@@ -243,6 +245,7 @@ int GamePark::initTerrain()
              driver()->getTexture("../../media/grass_dirty.jpg"));
     terrain->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
     terrain->scaleTexture(1.0f, 390.0f);
+    terrain->setMaterialFlag(video::EMF_FOG_ENABLE, true);
 
     if(m_config.freeFly() == false)
     {
@@ -389,6 +392,7 @@ int GamePark::initForest()
             node->setRotation(core::vector3df(0,180,0));
             node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
             node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+            node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
         }
 //        setCollision(node, m_player);
         m_forest[i] = node;
@@ -414,50 +418,32 @@ int GamePark::initForest()
         }
         mesh->drop();
     }
+    return 0;
+}
 
-
-    //-----------------------------------------
-//    pos =
-//    scale = core::vector3df(70.0f,70.0f,70.0f);
-//    mesh = smgr()->getMesh("../../media/models/forest_2.b3d");
-//    if (!mesh)
-//    {
-//        m_device->drop();
-//        return 1;
-//    }
-//    node = smgr()->addMeshSceneNode( mesh );
-//    if (node)
-//    {
-//        node->setScale(scale);
-//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-//        node->setPosition(pos);
-//        node->setRotation(core::vector3df(0,180,0));
-//        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
-//        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
-//    }
-//    setCollision(node, m_player);
-//    m_forest[1] = node;
-
-//    mesh = smgr()->getMesh("../../media/models/forest_2_low.b3d");
-//    if (!mesh)
-//    {
-//        m_device->drop();
-//        return 1;
-//    }
-//    node = smgr()->addMeshSceneNode( mesh );
-//    if (node)
-//    {
-//        node->setScale(scale);
-//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-//        node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-//        node->setPosition(pos);
-//        node->setRotation(core::vector3df(0,180,0));
-//        node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
-
-//    }
-//    mesh->drop();
+int GamePark::initGrass()
+{
+    core::vector3df scale = core::vector3df(60.0f,60.0f,60.0f);
+    core::vector3df pos(35460,135*2,42440);
+    scene::IMesh* mesh = smgr()->getMesh("../../media/models/grass_big.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(scale);
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+        node->setPosition(pos);
+        node->setRotation(core::vector3df(0,180,0));
+        node->setMaterialTexture( 0, driver()->getTexture("../../media/grass/grass.png") );
+        m_movableNode = (scene::IAnimatedMeshSceneNode*)node;
+    }
+    mesh->drop();
     return 0;
 }
 
@@ -483,6 +469,7 @@ int GamePark::initRoads()
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(200,200);
         //node->setMaterialType(video::EMT_DETAIL_MAP);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
 
     }
     setCollision(node,m_player);
@@ -514,6 +501,7 @@ int GamePark::initCurb()
         node->getMaterial(2).getTextureMatrix(0).setTextureScale(40,40);
         //node->setMaterialType(video::EMT_DETAIL_MAP);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
 
 //        node->getMaterial(0).getTextureMatrix(0).setTextureScale(200, 200);
 
@@ -688,7 +676,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-//        forestLOD(m_player->camera()->getPosition());
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
         env()->drawAll();
