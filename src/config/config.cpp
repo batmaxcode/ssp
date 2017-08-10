@@ -1,7 +1,8 @@
 #include "config.h"
 
 Config::Config() :
-    m_freeFly(false)
+    m_freeFly(false),
+    m_fog(false)
 {
 
 }
@@ -19,6 +20,7 @@ bool Config::load(const std::string &filename)
     m_params.Vsync = reader.getBoolean("general","vSync",false);
     m_params.Stencilbuffer = reader.getInteger("general","vSync",1);
     setFreeFly( reader.getBoolean("general","freeFly",false) );
+    setFog( reader.getBoolean("general","fog",false) );
     return true;
 }
 

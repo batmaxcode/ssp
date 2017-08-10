@@ -111,6 +111,7 @@ private:
     int initWater();
     int initWaterpool();
     int initChildSquare();
+    int initFort();
     int initWorld();
     int initTerrain();
     int initSkybox();
