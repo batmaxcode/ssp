@@ -110,6 +110,7 @@ private:
     void initPlayer();
     int initWater();
     int initWaterpool();
+    int initChildSquare();
     int initWorld();
     int initTerrain();
     int initSkybox();
