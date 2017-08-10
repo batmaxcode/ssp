@@ -17,6 +17,7 @@ public:
     void setKeyPressed(irr::EKEY_CODE key, bool pressed);
     void setMouseButtonPressed(irr::EMOUSE_INPUT_EVENT event);
     void setPosition(irr::f32 x, irr::f32 y, irr::f32 z);
+    void setRun(bool run);
     bool animationFire() const;
 
 private:
@@ -33,6 +34,7 @@ private:
     bool m_keyS;
     bool m_keyW;
     bool m_leftButton;
+    bool m_run;
 
     void setAnimationFire(bool val, bool hard = false);
     void setAnimationMove(bool val, bool hard = false);

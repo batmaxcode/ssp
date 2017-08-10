@@ -11,7 +11,8 @@ Player::Player(IrrlichtDevice* device) :
     m_keyD(false),
     m_keyS(false),
     m_keyW(false),
-    m_leftButton(false)
+    m_leftButton(false),
+    m_run(false)
 {
     SKeyMap keyMap[9];
     keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -186,6 +187,23 @@ void Player::setMouseButtonPressed(EMOUSE_INPUT_EVENT event)
 void Player::setPosition(f32 x, f32 y, f32 z)
 {
     camera()->setPosition(core::vector3df(x,y,z));
+}
+
+void Player::setRun(bool run)
+{
+    if(m_run != run)
+    {
+        m_run = run;
+        f32 speed = 1.2;
+        if(run == true)
+        {
+            speed = 3.2;
+        }
+        core::list<scene::ISceneNodeAnimator*>::ConstIterator anims = camera()->getAnimators().begin();
+        scene::ISceneNodeAnimatorCameraFPS *anim=(scene::ISceneNodeAnimatorCameraFPS*)*anims;
+        anim->setMoveSpeed(speed);
+//        anim->drop();
+    }
 }
 
 bool Player::animationFire() const

@@ -27,7 +27,11 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
         {
             m_gamePark->player()->setKeyPressed(event.KeyInput.Key,
                                                 event.KeyInput.PressedDown);
+
+            m_gamePark->player()->setRun( event.KeyInput.Shift );
         }
+
+
 
 
         switch (event.KeyInput.Key)
