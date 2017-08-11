@@ -238,9 +238,9 @@ int GamePark::initChildSquare()
     scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
     if (node)
     {
-        node->setScale(core::vector3df(282.0f,282.0f,282.0f));
+        node->setScale(core::vector3df(392.0f,392.0f,392.0f));
         if(!shadows)node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-        node->setPosition(core::vector3df(9840, 340, 48670));
+        node->setPosition(core::vector3df(9190, 340, 50060));
 
         node->setRotation(core::vector3df(0,180,0));
         //node->addShadowVolumeSceneNode();
