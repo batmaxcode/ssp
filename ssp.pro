@@ -24,7 +24,8 @@ HEADERS += \
   src/config/inireader.h \
   src/config/config.h \
   src/player.h \
-  src/RealisticWater.h
+  src/RealisticWater.h \
+    src/postprocessmotionblur.h
 
 LIBS += -L/home/user/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 LIBS += -L/home/max/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11

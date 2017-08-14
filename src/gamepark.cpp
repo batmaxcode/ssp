@@ -2,6 +2,7 @@
 #include "myeventreceiver.h"
 #include "config/inireader.h"
 #include "RealisticWater.h"
+#include "postprocessmotionblur.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -276,7 +277,7 @@ int GamePark::initFort()
     if (node)
     {
         node->setScale(core::vector3df(252.0f,252.0f,252.0f));
-        node->setPosition(core::vector3df(9840, 390, 48670));
+        node->setPosition(core::vector3df(9840, 320, 48670));
 
         node->setRotation(core::vector3df(0,180,0));
         //node->addShadowVolumeSceneNode();
@@ -289,6 +290,10 @@ int GamePark::initFort()
 //        node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(10,10);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        if(m_config.fog() == true)
+        {
+            node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
+        }
 
 //        node->setMaterialTexture(1, driver()->getTexture("../../media/fort_stone.jpg"));
 //        node->setMaterialType(video::EMT_DETAIL_MAP);
@@ -768,15 +773,40 @@ int GamePark::run()
 
 
 
+// Для размытия
+//    /**Important stuff, Rendering textures setup.*/
+//        video::ITexture* mainTarget = driver()->addRenderTargetTexture(m_config.params().WindowSize,"mainTarget");
+//        video::ITexture* rtt0;
+//        video::ITexture* temp;
+
+//    //These colors are needed to modify the colors of the RTT in order for them to mix adequately
+//    //Using a shader, the mix is done within the shader code, but we are using just the
+//    //fixed pipeline this time, so, we need some extra stuff. Normally, postprocessing is not
+//    //this extended.
+//        rtt0 = driver()->addRenderTargetTexture(m_config.params().WindowSize,"rtt0");
+//        temp = driver()->addRenderTargetTexture(m_config.params().WindowSize,"temp");//Mantiene temporalmente un resultado.
+
+//        CScreenQuadSceneNode* screenQuad = new CScreenQuadSceneNode(smgr()->getRootSceneNode(),smgr(),10);
+//        screenQuad->getMaterial(0).setTexture(0,mainTarget);
+//        screenQuad->getMaterial(0).setTexture(1,rtt0);
+
+
+
+
 
     while(m_device->run())
     if (m_device->isWindowActive())
     {
         driver()->beginScene(true, true, 0 );
 
+
+
         forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
+// Для размытия
+//        screenQuad->draw(driver(), rtt0, temp, m_config.params().WindowSize.Width,
+//                         m_config.params().WindowSize.Height, mainTarget);
         env()->drawAll();
 
 
@@ -833,6 +863,8 @@ int GamePark::run()
 
         if(m_player->node()->getFrameNr() > 31 && m_player->node()->getFrameNr() < 35) m_player->fire()->setVisible(true);
         if(m_player->node()->getFrameNr() > 35 || m_player->node()->getFrameNr() < 30) m_player->fire()->setVisible(false);
+
+
 
 
         driver()->endScene();
