@@ -27,40 +27,40 @@ int ChildSquareNode::initAnimals()
     core::vector3df pos;
     core::vector3df scale;
     // elephant
-    pos = core::vector3df(9900,560,46630);
-    scale = core::vector3df(95.0f,95.0f,95.0f);
-    mesh = m_smgr->getMesh("../../media/models/elephant.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    node = m_smgr->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(scale);
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(pos);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/rock.jpg") );
+//    pos = core::vector3df(9900,560,46630);
+//    scale = core::vector3df(95.0f,95.0f,95.0f);
+//    mesh = m_smgr->getMesh("../../media/models/elephant.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    node = m_smgr->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(scale);
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setPosition(pos);
+//        node->setMaterialTexture( 0, m_driver->getTexture("../../media/rock.jpg") );
 
-        node->getMaterial(0).Shininess = 1.0f;
-        node->getMaterial(0).SpecularColor.set(255,60,60,60);
-        node->getMaterial(0).AmbientColor.set(255,60,60,60);
-        node->getMaterial(0).DiffuseColor.set(255,60,60,60);
-        node->getMaterial(0).EmissiveColor.set(0,60,60,60);
+//        node->getMaterial(0).Shininess = 1.0f;
+//        node->getMaterial(0).SpecularColor.set(255,60,60,60);
+//        node->getMaterial(0).AmbientColor.set(255,60,60,60);
+//        node->getMaterial(0).DiffuseColor.set(255,60,60,60);
+//        node->getMaterial(0).EmissiveColor.set(0,60,60,60);
 
-        node->setMaterialTexture(1, m_driver->getTexture("../../media/rock.jpg"));
-        node->setMaterialType(video::EMT_DETAIL_MAP);
-        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
+//        node->setMaterialTexture(1, m_driver->getTexture("../../media/rock.jpg"));
+//        node->setMaterialType(video::EMT_DETAIL_MAP);
+//        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
+//        Collision::setCollision(node, m_player, m_smgr);
 
-        mesh->drop();
-    }
+//        mesh->drop();
+//    }
     // croco
-    pos = core::vector3df(9380, 340, 45570);
+    pos = core::vector3df(9590, 340, 48760);
     scale = core::vector3df(75.0f,75.0f,75.0f);
-    mesh = m_smgr->getMesh("../../media/models/croco.b3d");
+    mesh = m_smgr->getMesh("../../media/models/animals.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -73,61 +73,66 @@ int ChildSquareNode::initAnimals()
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(pos);
-        node->setRotation(core::vector3df(0,-30,0));
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/rock.jpg") );
+        node->setRotation(core::vector3df(0,180,0));
+        node->setMaterialTexture( 0, m_driver->getTexture("../../media/rock_dirty.jpg") );
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(20,20);
+//         node->getMaterial(0).getTextureMatrix(1).setTextureScale(20,20);
+//                node->setMaterialTexture(1, m_driver->getTexture("../../media/grass_dirty.jpg"));
+//                node->setMaterialType(video::EMT_DETAIL_MAP);
 
-        node->getMaterial(0).Shininess = 1.0f;
-        node->getMaterial(0).SpecularColor.set(255,0,0,0);
-        node->getMaterial(0).AmbientColor.set(255,0,0,0);
-        node->getMaterial(0).DiffuseColor.set(255,0,0,0);
-        node->getMaterial(0).EmissiveColor.set(0,0,0,0);
 
-        node->setMaterialTexture(1, m_driver->getTexture("../../media/rock.jpg"));
-        node->setMaterialType(video::EMT_DETAIL_MAP);
+//        node->getMaterial(0).Shininess = 1.0f;
+//        int value = 60;
+//        node->getMaterial(0).SpecularColor.set(255,value,value,value);
+//        node->getMaterial(0).AmbientColor.set(255,value,value,value);
+//        node->getMaterial(0).DiffuseColor.set(255,value,value,value);
+//        node->getMaterial(0).EmissiveColor.set(0,value,value,value);
+
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
         Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
     // turtle
-    pos = core::vector3df(9370, 410, 48410);
-    scale = core::vector3df(65.0f,65.0f,65.0f);
-    mesh = m_smgr->getMesh("../../media/models/turt.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    node = m_smgr->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(scale);
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(pos);
-        node->setRotation(core::vector3df(0,-30,0));
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/rock.jpg") );
+//    pos = core::vector3df(9370, 410, 48410);
+//    scale = core::vector3df(65.0f,65.0f,65.0f);
+//    mesh = m_smgr->getMesh("../../media/models/turt.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    node = m_smgr->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(scale);
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setPosition(pos);
+//        node->setRotation(core::vector3df(0,-30,0));
+//        node->setMaterialTexture( 0, m_driver->getTexture("../../media/rock.jpg") );
 
-        node->getMaterial(0).Shininess = 1.0f;
-        node->getMaterial(0).SpecularColor.set(255,0,0,0);
-        node->getMaterial(0).AmbientColor.set(255,0,0,0);
-        node->getMaterial(0).DiffuseColor.set(255,0,0,0);
-        node->getMaterial(0).EmissiveColor.set(0,0,0,0);
+//        node->getMaterial(0).Shininess = 1.0f;
+//        node->getMaterial(0).SpecularColor.set(255,0,0,0);
+//        node->getMaterial(0).AmbientColor.set(255,0,0,0);
+//        node->getMaterial(0).DiffuseColor.set(255,0,0,0);
+//        node->getMaterial(0).EmissiveColor.set(0,0,0,0);
 
-        node->setMaterialTexture(1, m_driver->getTexture("../../media/rock.jpg"));
-        node->setMaterialType(video::EMT_DETAIL_MAP);
-        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
+//        node->setMaterialTexture(1, m_driver->getTexture("../../media/rock.jpg"));
+//        node->setMaterialType(video::EMT_DETAIL_MAP);
+//        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
+//        Collision::setCollision(node, m_player, m_smgr);
 
-        mesh->drop();
-    }
+//        mesh->drop();
+//    }
 
     return 0;
 }
 
 int ChildSquareNode::initFort()
 {
-    scene::IMesh* mesh = m_smgr->getMesh("../../media/models/child_square_fort.b3d");
+    // stone
+    scene::IMesh* mesh = m_smgr->getMesh("../../media/models/child_square_fort_stone.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -152,15 +157,35 @@ int ChildSquareNode::initFort()
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
 
-//        node->setMaterialTexture(1, driver()->getTexture("../../media/fort_stone.jpg"));
-//        node->setMaterialType(video::EMT_DETAIL_MAP);
+    }
+    Collision::setCollision(node, m_player, m_smgr);
 
+    // brick
+    mesh = m_smgr->getMesh("../../media/models/child_square_fort_brick.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    node = m_smgr->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(252.0f,252.0f,252.0f));
+        node->setPosition(core::vector3df(9840, 320, 48670));
 
-//        node->getMaterial(0).Shininess = 1.0f;
-//        node->getMaterial(0).SpecularColor.set(255,0,0,0);
-//        node->getMaterial(0).AmbientColor.set(255,0,0,0);
-//        node->getMaterial(0).DiffuseColor.set(255,0,0,0);
-//        node->getMaterial(0).EmissiveColor.set(0,0,0,0);
+        node->setRotation(core::vector3df(0,180,0));
+        //node->addShadowVolumeSceneNode();
+        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setMaterialTexture( 0, m_driver->getTexture("../../media/brick.jpg") );
+//        node->setMaterialType(video::EMT_LIGHTMAP);
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->getMaterial(0).NormalizeNormals = true;
+//        node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(6,6);
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
+
     }
     Collision::setCollision(node, m_player, m_smgr);
     return 0;
