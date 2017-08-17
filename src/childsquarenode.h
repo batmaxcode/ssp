@@ -23,6 +23,7 @@ private:
     int initAnimals();
     int initFort();
     int initSquare();
+    int initBridge();
 };
 
 #endif // CHILDSQUARENODE_H

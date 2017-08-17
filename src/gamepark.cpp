@@ -4,6 +4,7 @@
 #include "RealisticWater.h"
 #include "postprocessmotionblur.h"
 #include "childsquarenode.h"
+#include "collision.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -274,8 +275,8 @@ int GamePark::initTerrain()
         // создаем аниматор столкновений с селектором и прикрепляем его к игроку
         scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
             selector, m_player->camera(), m_player->ellipsoid(),
-            core::vector3df(0,-10,0),
-            core::vector3df(0,90,0));
+            core::vector3df(0,-8,0),
+            core::vector3df(0, -100,0));
         selector->drop();
         m_player->camera()->addAnimator(anim);
         anim->drop();
@@ -536,7 +537,7 @@ int GamePark::initCurb()
 //        node->getMaterial(0).getTextureMatrix(0).setTextureScale(200, 200);
 
     }
-    setCollision(node,m_player);
+//    setCollision(node,m_player);
     mesh->drop();
     return 0;
 }
@@ -573,28 +574,30 @@ int GamePark::initPlanes()
 
 void GamePark::setCollision(scene::IAnimatedMeshSceneNode *node, Player *player)
 {
-    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
-    node->setTriangleSelector(selector);
-    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
-    selector,
-    player->camera(),player->ellipsoid(),
-    core::vector3df(0,0,0),core::vector3df(0,60,0));
-    selector->drop();
-    player->camera()->addAnimator(anim);
-    anim->drop();
+//    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
+//    node->setTriangleSelector(selector);
+//    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
+//    selector,
+//    player->camera(),player->ellipsoid(),
+//    core::vector3df(0,0,0),core::vector3df(0,60,0));
+//    selector->drop();
+//    player->camera()->addAnimator(anim);
+//    anim->drop();
+    Collision::setCollision(node, player, smgr());
 }
 
 void GamePark::setCollision(scene::IMeshSceneNode *node, Player *player)
 {
-    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
-    node->setTriangleSelector(selector);
-    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
-    selector,
-    player->camera(),player->ellipsoid(),
-    core::vector3df(0,0,0),core::vector3df(0,60,0));
-    selector->drop();
-    player->camera()->addAnimator(anim);
-    anim->drop();
+//    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
+//    node->setTriangleSelector(selector);
+//    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
+//    selector,
+//    player->camera(),player->ellipsoid(),
+//    core::vector3df(0,0,0),core::vector3df(0,60,0));
+//    selector->drop();
+//    player->camera()->addAnimator(anim);
+//    anim->drop();
+    Collision::setCollision(node, player, smgr());
 }
 
 void GamePark::switchTerrainMaterial(video::E_MATERIAL_FLAG material)

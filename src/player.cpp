@@ -102,7 +102,7 @@ Player::Player(IrrlichtDevice* device) :
 
 irr::core::vector3df Player::ellipsoid() const
 {
-    return core::vector3df(250,180,250);
+    return core::vector3df(250,350,250);
 }
 
 irr::scene::ICameraSceneNode* Player::camera() const
