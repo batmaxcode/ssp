@@ -16,10 +16,11 @@ SOURCES += \
   src/config/config.cpp \
   src/player.cpp \
   src/RealisticWater.cpp \
-    src/childsquarenode.cpp \
-    src/collision.cpp \
-    src/abstractscenenode.cpp \
-    src/fountainsquarenode.cpp
+  src/childsquarenode.cpp \
+  src/collision.cpp \
+  src/abstractscenenode.cpp \
+  src/fountainsquarenode.cpp \
+  src/common.cpp
 
 HEADERS += \
   src/gamepark.h \
@@ -29,11 +30,12 @@ HEADERS += \
   src/config/config.h \
   src/player.h \
   src/RealisticWater.h \
-    src/postprocessmotionblur.h \
-    src/childsquarenode.h \
-    src/collision.h \
-    src/abstractscenenode.h \
-    src/fountainsquarenode.h
+  src/postprocessmotionblur.h \
+  src/childsquarenode.h \
+  src/collision.h \
+  src/abstractscenenode.h \
+  src/fountainsquarenode.h \
+  src/common.h
 
 LIBS += -L/home/user/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 LIBS += -L/home/max/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11

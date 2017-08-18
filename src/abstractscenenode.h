@@ -13,6 +13,10 @@ public:
     virtual int load();
     inline bool fog() const {return m_fog;}
     inline void setFog(bool fog) {m_fog = fog;}
+    inline irr::video::ITexture* texture(const irr::io::path &filename)
+           {return m_driver->getTexture(irr::core::stringc("../../media/textures/")+filename);}
+    inline irr::scene::IAnimatedMesh* getMesh(const irr::io::path &filename)
+           {return m_smgr->getMesh(irr::core::stringc("../../media/models/")+filename);}
 
 protected:
     irr::scene::ISceneManager* m_smgr;

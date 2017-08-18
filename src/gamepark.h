@@ -128,6 +128,7 @@ private:
                       Player* player);
     void setCollision(scene::IMeshSceneNode* node,
                       Player* player);
+    video::ITexture* texture(const io::path &textureName);
 
 };
 

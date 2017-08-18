@@ -22,7 +22,7 @@ int FountainSquareNode::initFountain()
 {
     scene::IMesh* mesh;
     scene::IMeshSceneNode* node;
-    mesh = m_smgr->getMesh("../../media/models/fontan3.b3d");
+    mesh = getMesh("fountain.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -40,8 +40,8 @@ int FountainSquareNode::initFountain()
 
         //node->setMaterialFlag(video::EMF_GOURAUD_SHADING,false);
         //node->setMaterialFlag(video::EMT_S,false);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/fontan3.jpg") );
-        //node->setMaterialTexture( 1, driver->getTexture("../media/post_apok.jpg") );
+        node->setMaterialTexture(0, texture("fountain.jpg") );
+        //node->setMaterialTexture( 1, texture("post_apok.jpg") );
         //node->setMaterialType(video::EMT_LIGHTMAP);
 
         node->getMaterial(0).NormalizeNormals = true;
@@ -51,7 +51,7 @@ int FountainSquareNode::initFountain()
         Collision::setCollision(node,m_player,m_smgr);
     }
     // label
-    mesh = m_smgr->getMesh("../../media/models/bukv.b3d");
+    mesh = getMesh("fountain_label.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -65,7 +65,7 @@ int FountainSquareNode::initFountain()
         node->setPosition(core::vector3df(9160,235*2,58440));
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/iron.jpg") );
+        node->setMaterialTexture( 0, texture("iron.jpg") );
         node->getMaterial(0).NormalizeNormals = true;
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
         //node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
@@ -75,7 +75,7 @@ int FountainSquareNode::initFountain()
 
 int FountainSquareNode::initSquare()
 {
-    scene::IMesh* mesh = m_smgr->getMesh("../../media/models/waterpool3.b3d");
+    scene::IMesh* mesh = getMesh("fountain_square.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -89,8 +89,8 @@ int FountainSquareNode::initSquare()
         node->setPosition(core::vector3df(4990*2,180*2,29400*2));
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/sand3.jpg") );
-        node->setMaterialTexture(1, m_driver->getTexture("../../media/shadow.jpg"));
+        node->setMaterialTexture( 0, texture("sand3.jpg") );
+        node->setMaterialTexture(1, texture("shadow.jpg"));
         node->setMaterialType(video::EMT_LIGHTMAP);
         node->getMaterial(0).NormalizeNormals = true;
         node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
@@ -108,7 +108,7 @@ int FountainSquareNode::initFlagpole()
     scene::IMesh* mesh;
     scene::IMeshSceneNode* node;
     // flagstaff
-    mesh = m_smgr->getMesh("../../media/models/flagshtok.b3d");
+    mesh = getMesh("flagstaff.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -122,7 +122,7 @@ int FountainSquareNode::initFlagpole()
         node->setPosition(core::vector3df(9160,235*2,58440));
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/iron_gray.jpg") );
+        node->setMaterialTexture( 0, texture("iron_gray.jpg") );
         node->getMaterial(0).NormalizeNormals = true;
         node->getMaterial(0).TextureLayer[0].BilinearFilter = true;
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
@@ -130,7 +130,7 @@ int FountainSquareNode::initFlagpole()
     // flags
     scene::IAnimatedMesh* animatedMesh;
     scene::ISceneNode* flagnode;
-    animatedMesh = m_smgr->getMesh("../../media/models/flag.b3d");
+    animatedMesh = getMesh("flag.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -144,12 +144,12 @@ int FountainSquareNode::initFlagpole()
         flagnode->setPosition(core::vector3df(12640,1055*2,57550));
         flagnode->setRotation(core::vector3df(0,180,0));
         flagnode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        flagnode->setMaterialTexture( 0, m_driver->getTexture("../../media/russia.png") );
+        flagnode->setMaterialTexture( 0, texture("russia.png") );
         flagnode->getMaterial(0).NormalizeNormals = true;
         flagnode->getMaterial(0).TextureLayer[0].BilinearFilter = true;
         flagnode->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
     }
-    mesh = m_smgr->getMesh("../../media/models/flag2.b3d");
+    mesh = getMesh("flag2.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -163,7 +163,7 @@ int FountainSquareNode::initFlagpole()
         flagnode->setPosition(core::vector3df(12890,1155*2,57550));
         flagnode->setRotation(core::vector3df(0,180,0));
         flagnode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        flagnode->setMaterialTexture( 0, m_driver->getTexture("../../media/saintp.png") );
+        flagnode->setMaterialTexture( 0, texture("saintp.png") );
         flagnode->getMaterial(0).NormalizeNormals = true;
         flagnode->getMaterial(0).TextureLayer[0].BilinearFilter = true;
         flagnode->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
@@ -176,7 +176,7 @@ int FountainSquareNode::initOpeningMonument()
     scene::IMesh* mesh;
     scene::IMeshSceneNode* node;
     // stairs
-    mesh = m_smgr->getMesh("../../media/models/lestnica.b3d");
+    mesh = getMesh("monument_stairs.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -190,8 +190,8 @@ int FountainSquareNode::initOpeningMonument()
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(core::vector3df(8800*2,200*2,29800*2));
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/camen.jpg") );
-        node->setMaterialTexture(1, m_driver->getTexture("../../media/grass_dirty.jpg"));
+        node->setMaterialTexture( 0, texture("camen.jpg") );
+        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
         node->getMaterial(0).getTextureMatrix(1).setTextureScale(10,10);
         node->setMaterialType(video::EMT_DETAIL_MAP);
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
@@ -201,7 +201,7 @@ int FountainSquareNode::initOpeningMonument()
     createPlane(9335*2,285*2,29800*2,13.6,23,0,0,0);
     createPlane(9997*2,285*2,29800*2,25,30,0,0,0);
     // monument
-    mesh = m_smgr->getMesh("../../media/models/pamyatnik.b3d");
+    mesh = getMesh("monument.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -215,8 +215,8 @@ int FountainSquareNode::initOpeningMonument()
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(core::vector3df(20040,600,59600));
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/lenin.png") );
-        node->setMaterialTexture(1, m_driver->getTexture("../../media/grass_dirty.jpg"));
+        node->setMaterialTexture(0, texture("lenin.png") );
+        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
         node->getMaterial(0).getTextureMatrix(1).setTextureScale(10,10);
         node->setMaterialType(video::EMT_DETAIL_MAP);
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
@@ -230,7 +230,7 @@ int FountainSquareNode::initStoneBench()
 {
     scene::IMesh* mesh;
     scene::IMeshSceneNode* node;
-    mesh = m_smgr->getMesh("../../media/models/plitaskam4.b3d");
+    mesh = getMesh("stone_bench.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -244,7 +244,7 @@ int FountainSquareNode::initStoneBench()
         node->setPosition(core::vector3df(4990*2,180*2,29400*2));
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/camen4.jpg") );
+        node->setMaterialTexture( 0, texture("camen4.jpg") );
 
         node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
         //cube->getMaterial(0).getTextureMatrix(0).setTextureScale(u/3, v/3);
@@ -266,8 +266,8 @@ int FountainSquareNode::createPlane(int x, int y,int z,int u,int v,
     scene::ISceneNode* cube = m_smgr->addCubeSceneNode(50.0f);
 
     cube->setPosition(core::vector3df(x,y,z));
-    cube->setMaterialTexture(0, m_driver->getTexture("../../media/road_camen.jpg"));
-    cube->setMaterialTexture(1, m_driver->getTexture("../../media/grass_dirty.jpg"));
+    cube->setMaterialTexture(0, texture("road_stone.jpg"));
+    cube->setMaterialTexture(1, texture("grass_dirty.jpg"));
     cube->setMaterialType(video::EMT_DETAIL_MAP);
     cube->setScale(core::vector3df(v,1.0f,u));
     cube->setRotation(core::vector3df(rx,ry,rz));

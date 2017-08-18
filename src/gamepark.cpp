@@ -4,6 +4,7 @@
 #include "RealisticWater.h"
 #include "postprocessmotionblur.h"
 #include "collision.h"
+#include "common.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -89,7 +90,7 @@ void GamePark::initEnvironment()
 {
     int y = m_config.params().WindowSize.Height;
     // устанавливаем шрифт
-    env()->getSkin()->setFont(env()->getFont("../../media/fontlucida.png"));
+    env()->getSkin()->setFont(env()->getFont("../../media/textures/fontlucida.png"));
     // добавляем вспомогательный текст
     m_controlText = env()->addStaticText(L"Use W,A,S,D to move\n"
                                          "Press 'Q' to change wireframe mode\n"
@@ -137,8 +138,8 @@ int GamePark::initWater()
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(35860,105*2,45900));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    waternode->setMaterialTexture(0, driver()->getTexture("../../media/dirty2.jpg"));
-    waternode->setMaterialTexture(1, driver()->getTexture("../../media/water_dirty.jpg"));
+    waternode->setMaterialTexture(0, texture("dirty2.jpg"));
+    waternode->setMaterialTexture(1, texture("water_dirty.jpg"));
 
     waternode->getMaterial(0).getTextureMatrix(0).setTextureScale(0.5, 1);
     waternode->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
@@ -158,8 +159,8 @@ int GamePark::initWater()
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(51060,105*2,29800));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    waternode->setMaterialTexture(0, driver()->getTexture("../../media/dirty2.jpg"));
-    waternode->setMaterialTexture(1, driver()->getTexture("../../media/water_dirty.jpg"));
+    waternode->setMaterialTexture(0, texture("dirty2.jpg"));
+    waternode->setMaterialTexture(1, texture("water_dirty.jpg"));
 
     waternode->getMaterial(0).getTextureMatrix(0).setTextureScale(1, 1);
     waternode->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
@@ -179,8 +180,8 @@ int GamePark::initWater()
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(48600,95*2,29800));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    waternode->setMaterialTexture(0, driver()->getTexture("../../media/dirty2.jpg"));
-    waternode->setMaterialTexture(1, driver()->getTexture("../../media/water_dirty.jpg"));
+    waternode->setMaterialTexture(0, texture("dirty2.jpg"));
+    waternode->setMaterialTexture(1, texture("water_dirty.jpg"));
 
     waternode->getMaterial(0).getTextureMatrix(0).setTextureScale(1, 1);
     waternode->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
@@ -211,7 +212,7 @@ int GamePark::initTerrain()
 {
     // добавление ландшафта
     terrain = smgr()->addTerrainSceneNode(
-                    "../../media/park-ter-5.png",
+                    "../../media/textures/park-ter-5.png",
                     0,					// parent node
                     -1,					// node id
                     core::vector3df(0.f, 0.f, 0.f),		// position
@@ -224,10 +225,8 @@ int GamePark::initTerrain()
                     );
     terrain->setMaterialType(video::EMT_DETAIL_MAP);
     terrain->setMaterialFlag(video::EMF_LIGHTING, false);
-    terrain->setMaterialTexture(0,
-             driver()->getTexture("../../media/park-textura-5.png"));
-    terrain->setMaterialTexture(1,
-             driver()->getTexture("../../media/grass_dirty.jpg"));
+    terrain->setMaterialTexture(0, texture("park-textura-5.png"));
+    terrain->setMaterialTexture(1, texture("grass_dirty.jpg"));
     terrain->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
     terrain->scaleTexture(1.0f, 390.0f);
     if(m_config.fog() == true)
@@ -277,15 +276,13 @@ int GamePark::initSkybox()
     // создание skybox и skydome
     driver()->setTextureCreationFlag(video::ETCF_CREATE_MIP_MAPS, false);
 
-    skybox=smgr()->addSkyBoxSceneNode(
-        driver()->getTexture("../../media/irrlicht2_up.jpg"),
-        driver()->getTexture("../../media/irrlicht2_dn.jpg"),
-        driver()->getTexture("../../media/irrlicht2_lf.jpg"),
-        driver()->getTexture("../../media/irrlicht2_rt.jpg"),
-        driver()->getTexture("../../media/irrlicht2_ft.jpg"),
-        driver()->getTexture("../../media/irrlicht2_bk.jpg"));
-    skydome=smgr()->addSkyDomeSceneNode(driver()->getTexture("../../media/skydome.jpg"),
-                                        16,8,0.95f,2.0f);
+    skybox=smgr()->addSkyBoxSceneNode(texture("irrlicht2_up.jpg"),
+                                      texture("irrlicht2_dn.jpg"),
+                                      texture("irrlicht2_lf.jpg"),
+                                      texture("irrlicht2_rt.jpg"),
+                                      texture("irrlicht2_ft.jpg"),
+                                      texture("irrlicht2_bk.jpg"));
+    skydome=smgr()->addSkyDomeSceneNode(texture("skydome.jpg"),16,8,0.95f,2.0f);
     skybox->setVisible(true);
     skydome->setVisible(false);
 
@@ -314,38 +311,6 @@ int GamePark::initReceiver()
 
 int GamePark::initTestObj()
 {
-//    scene::IMesh* mesh = smgr()->getMesh("../../media/models/cube.b3d");
-//    if (!mesh)
-//    {
-//        device()->drop();
-//        return 1;
-//    }
-//    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
-//    if (node)
-//    {
-//        node->setScale(core::vector3df(570.0f,570.0f,570.0f));
-//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-//        node->setPosition(m_player->camera()->getPosition());
-
-//        node->setRotation(core::vector3df(0,180,0));
-//        //node->addShadowVolumeSceneNode();
-//        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
-//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-//        node->setMaterialTexture( 0, driver()->getTexture("../../media/fort_stone.jpg") );
-//        node->setMaterialTexture( 1, driver()->getTexture("../../media/sand3.jpg") );
-////        node->setMaterialTexture( 1,driver()->getTexture("../../media/shadow.jpg"));
-////        node->setMaterialType(video::EMT_LIGHTMAP);
-////        node->getMaterial(0).NormalizeNormals = true;
-////        node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
-//        node->getMaterial(0).getTextureMatrix(0).setTextureScale(0.40,0.40);
-////        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.46,0.48);
-//        //cube->getMaterial(0).getTextureMatrix(0).setTextureScale(u/3, v/3);
-//        //cube->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
-//        //cube->getMaterial(0).TextureLayer->TextureWrapV = video::ETC_REPEAT;
-//        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
-
-//    }
-//    setCollision(node,m_player);
     return 0;
 }
 
@@ -363,8 +328,7 @@ int GamePark::initForest()
     {
         core::stringc postfix = core::stringc(i+1)+".b3d";
         core::stringc postfixLow = core::stringc(i+1)+"_low.b3d";
-        scene::IMesh* mesh = smgr()->getMesh(core::stringc("../../media/models/forest_")+
-                                             postfix);
+        scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"forest_"+postfix);
         if (!mesh)
         {
             m_device->drop();
@@ -378,7 +342,7 @@ int GamePark::initForest()
             node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
             node->setPosition(pos[i]);
             node->setRotation(core::vector3df(0,180,0));
-            node->setMaterialTexture( 0, driver()->getTexture("../../media/tree.jpg") );
+            node->setMaterialTexture( 0, texture("tree.jpg") );
             node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
             if(m_config.fog() == true)
             {
@@ -388,8 +352,7 @@ int GamePark::initForest()
 //        setCollision(node, m_player);
         m_forest[i] = node;
 
-        mesh = smgr()->getMesh(core::stringc("../../media/models/forest_")+
-                               postfixLow);
+        mesh = smgr()->getMesh(Common::modelsPath()+"forest_"+postfixLow);
         if (!mesh)
         {
             m_device->drop();
@@ -404,7 +367,7 @@ int GamePark::initForest()
             node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
             node->setPosition(pos[i]);
             node->setRotation(core::vector3df(0,180,0));
-            node->setMaterialTexture( 0, driver()->getTexture("../../media/tree_spherical_1_2.png") );
+            node->setMaterialTexture( 0, texture("tree_spherical_1_2.png") );
 
         }
         mesh->drop();
@@ -416,7 +379,7 @@ int GamePark::initGrass()
 {
     core::vector3df scale = core::vector3df(60.0f,60.0f,60.0f);
     core::vector3df pos(35460,135*2,42440);
-    scene::IMesh* mesh = smgr()->getMesh("../../media/models/grass_big.b3d");
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"grass_big.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -431,7 +394,7 @@ int GamePark::initGrass()
         node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
         node->setPosition(pos);
         node->setRotation(core::vector3df(0,180,0));
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/grass/grass.png") );
+        node->setMaterialTexture( 0, texture("grass/grass.png") );
         if(m_config.fog() == true)
         {
             node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
@@ -444,7 +407,7 @@ int GamePark::initGrass()
 
 int GamePark::initRoads()
 {
-    scene::IMesh* mesh = smgr()->getMesh("../../media/models/road.b3d");
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"road.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -459,7 +422,7 @@ int GamePark::initRoads()
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(core::vector3df(9730*2,150*2,26555*2));
         //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/asphalt.jpg") );
+        node->setMaterialTexture( 0, texture("asphalt.jpg") );
         node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(200,200);
         //node->setMaterialType(video::EMT_DETAIL_MAP);
@@ -477,7 +440,7 @@ int GamePark::initRoads()
 
 int GamePark::initCurb()
 {
-    scene::IMesh* mesh = smgr()->getMesh("../../media/models/curb.b3d");
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"curb.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -492,7 +455,7 @@ int GamePark::initCurb()
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(core::vector3df(9730*2,150*2,26555*2));
         //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/curb2.jpg") );
+        node->setMaterialTexture( 0, texture("curb2.jpg") );
 //        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(40,40);
         node->getMaterial(1).getTextureMatrix(0).setTextureScale(40,40);
@@ -514,7 +477,7 @@ int GamePark::initCurb()
 
 int GamePark::initPlanes()
 {
-    scene::IMesh* mesh = smgr()->getMesh("../../media/models/main_plane.b3d");
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"main_plane.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -529,8 +492,8 @@ int GamePark::initPlanes()
             node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(core::vector3df(7950*2,150*2,29850*2));
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/plita-daleko.png") );
-        node->setMaterialTexture( 1, driver()->getTexture("../../media/plita-2.jpg") );
+        node->setMaterialTexture( 0, texture("plita-daleko.png") );
+        node->setMaterialTexture( 1, texture("plita-2.jpg") );
         node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
 
         node->setMaterialType(video::EMT_DETAIL_MAP);
@@ -544,30 +507,17 @@ int GamePark::initPlanes()
 
 void GamePark::setCollision(scene::IAnimatedMeshSceneNode *node, Player *player)
 {
-//    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
-//    node->setTriangleSelector(selector);
-//    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
-//    selector,
-//    player->camera(),player->ellipsoid(),
-//    core::vector3df(0,0,0),core::vector3df(0,60,0));
-//    selector->drop();
-//    player->camera()->addAnimator(anim);
-//    anim->drop();
     Collision::setCollision(node, player, smgr());
 }
 
 void GamePark::setCollision(scene::IMeshSceneNode *node, Player *player)
 {
-//    scene::ITriangleSelector* selector = smgr()->createOctreeTriangleSelector(node->getMesh(),node,128);
-//    node->setTriangleSelector(selector);
-//    scene::ISceneNodeAnimator* anim = smgr()->createCollisionResponseAnimator(
-//    selector,
-//    player->camera(),player->ellipsoid(),
-//    core::vector3df(0,0,0),core::vector3df(0,60,0));
-//    selector->drop();
-//    player->camera()->addAnimator(anim);
-//    anim->drop();
     Collision::setCollision(node, player, smgr());
+}
+
+ITexture *GamePark::texture(const io::path &filename)
+{
+    return driver()->getTexture(core::stringc("../../media/textures/")+filename);
 }
 
 void GamePark::switchTerrainMaterial(video::E_MATERIAL_FLAG material)
@@ -662,7 +612,7 @@ int GamePark::run()
     // пересечения луча и объекта в который он уперся
     bill = smgr()->addBillboardSceneNode();
     bill->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR );
-    bill->setMaterialTexture(0, driver()->getTexture("../../media/particle.bmp"));
+    bill->setMaterialTexture(0, texture("particle.bmp"));
     bill->setMaterialFlag(video::EMF_LIGHTING, false);
     bill->setMaterialFlag(video::EMF_ZBUFFER, false);
     bill->setSize(core::dimension2d< f32 >(20.0f, 20.0f));

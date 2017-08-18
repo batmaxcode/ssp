@@ -27,7 +27,7 @@ int ChildSquareNode::initAnimals()
     // croco
     pos = core::vector3df(9590, 340, 48760);
     scale = core::vector3df(75.0f,75.0f,75.0f);
-    mesh = m_smgr->getMesh("../../media/models/animals.b3d");
+    mesh = getMesh("animals.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -41,7 +41,7 @@ int ChildSquareNode::initAnimals()
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(pos);
         node->setRotation(core::vector3df(0,180,0));
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/rock_dirty.jpg") );
+        node->setMaterialTexture( 0, texture("rock_dirty.jpg") );
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(20,20);
 
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
@@ -56,7 +56,7 @@ int ChildSquareNode::initAnimals()
 int ChildSquareNode::initFort()
 {
     // stone
-    scene::IMesh* mesh = m_smgr->getMesh("../../media/models/child_square_fort_stone.b3d");
+    scene::IMesh* mesh = getMesh("child_square_fort_stone.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -70,7 +70,7 @@ int ChildSquareNode::initFort()
 
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/fort_stone.jpg") );
+        node->setMaterialTexture( 0, texture("fort_stone.jpg") );
 //        node->setMaterialType(video::EMT_LIGHTMAP);
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->getMaterial(0).NormalizeNormals = true;
@@ -83,7 +83,7 @@ int ChildSquareNode::initFort()
     Collision::setCollision(node, m_player, m_smgr);
 
     // brick
-    mesh = m_smgr->getMesh("../../media/models/child_square_fort_brick.b3d");
+    mesh = getMesh("child_square_fort_brick.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -96,7 +96,7 @@ int ChildSquareNode::initFort()
         node->setPosition(core::vector3df(9840, 320, 48670));
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/brick.jpg") );
+        node->setMaterialTexture( 0, texture("brick.jpg") );
 //        node->setMaterialType(video::EMT_LIGHTMAP);
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->getMaterial(0).NormalizeNormals = true;
@@ -112,7 +112,7 @@ int ChildSquareNode::initFort()
 
 int ChildSquareNode::initSquare()
 {
-    scene::IMesh* mesh = m_smgr->getMesh("../../media/models/child_square.b3d");
+    scene::IMesh* mesh = getMesh("child_square.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -128,8 +128,8 @@ int ChildSquareNode::initSquare()
 
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/sand3.jpg") );
-        node->setMaterialTexture(1, m_driver->getTexture("../../media/shadow.jpg"));
+        node->setMaterialTexture( 0, texture("sand3.jpg") );
+        node->setMaterialTexture(1, texture("shadow.jpg"));
         node->setMaterialType(video::EMT_LIGHTMAP);
         node->getMaterial(0).NormalizeNormals = true;
         node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
@@ -150,7 +150,7 @@ int ChildSquareNode::initSquare()
 int ChildSquareNode::initBridge()
 {
     // stone
-    scene::IMesh* mesh = m_smgr->getMesh("../../media/models/child_square_fort_bridge.b3d");
+    scene::IMesh* mesh = getMesh("child_square_fort_bridge.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -164,7 +164,7 @@ int ChildSquareNode::initBridge()
 
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, m_driver->getTexture("../../media/bridge.jpg") );
+        node->setMaterialTexture( 0, texture("bridge.jpg") );
 //        node->setMaterialType(video::EMT_LIGHTMAP);
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->getMaterial(0).NormalizeNormals = true;

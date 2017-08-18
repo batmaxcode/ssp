@@ -53,7 +53,7 @@ Player::Player(IrrlichtDevice* device) :
     m_fire->setPosition(core::vector3df(0,0,150));
     m_fire->setMaterialFlag(video::EMF_LIGHTING, false);
     m_fire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-    m_fire->setMaterialTexture(0, m_device->getVideoDriver()->getTexture("../../media/particlewhite.bmp"));
+    m_fire->setMaterialTexture(0, m_device->getVideoDriver()->getTexture("../../media/textures/particlewhite.bmp"));
     m_fire->setVisible(false);
 
     // --------------
@@ -64,7 +64,7 @@ Player::Player(IrrlichtDevice* device) :
     pricel->setPosition(core::vector3df(0,0,10));
     pricel->setMaterialFlag(video::EMF_LIGHTING, false);
     pricel->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-    pricel->setMaterialTexture(0, m_device->getVideoDriver()->getTexture("../../media/pricel.bmp"));
+    pricel->setMaterialTexture(0, m_device->getVideoDriver()->getTexture("../../media/textures/pricel.bmp"));
 
     // --------------
 
@@ -73,7 +73,7 @@ Player::Player(IrrlichtDevice* device) :
 
 
 
-    scene::IAnimatedMesh* mesh = m_device->getSceneManager()->getMesh("../../media/ak12.x");
+    scene::IAnimatedMesh* mesh = m_device->getSceneManager()->getMesh("../../media/models/ak12.x");
     if (!mesh)
     {
         m_device->drop();
@@ -91,7 +91,7 @@ Player::Player(IrrlichtDevice* device) :
         //animnode->setPosition(core::vector3df(9170,610*2,60540));
         m_node->setRotation(core::vector3df(0,180,0));
         //node->addShadowVolumeSceneNode();
-        m_node->setMaterialTexture( 0, m_device->getVideoDriver()->getTexture("../../media/ak12.png") );
+        m_node->setMaterialTexture( 0, m_device->getVideoDriver()->getTexture("../../media/textures/ak12.png") );
         m_node->setAnimationSpeed(10.f);
         m_node->setFrameLoop(0,0);
 
