@@ -53,6 +53,7 @@ int GamePark::initWorld()
     initSkybox();
     initLight();
     initTestObj();
+    initEagle();
     return 0;
 }
 
@@ -311,6 +312,30 @@ int GamePark::initReceiver()
 
 int GamePark::initTestObj()
 {
+//    scene::IAnimatedMesh* mesh = m_device->getSceneManager()->getMesh(Common::modelsPath()+"wolf.x");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//    }
+//    scene::IAnimatedMeshSceneNode* node = m_device->getSceneManager()->addAnimatedMeshSceneNode(mesh );
+//    if (node)
+//    {
+//        //animnode->setScale(core::vector3df(30.0f,30.0f,30.0f));
+//        node->setScale(core::vector3df(300.0f,300.0f,300.0f));
+////        if(shadows)
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        //node->setPosition(core::vector3df(27,-40,20));
+//        node->setPosition(m_player->camera()->getPosition());
+//        //animnode->setPosition(core::vector3df(9170,610*2,60540));
+//        node->setRotation(core::vector3df(0,180,0));
+//        //node->addShadowVolumeSceneNode();
+////        m_node->setMaterialTexture( 0, m_device->getVideoDriver()->getTexture("../../media/textures/ak12.png") );
+//        node->setAnimationSpeed(10.f);
+//        node->setFrameLoop(0,17);
+////        setCollision(node, m_player);
+
+//    }
     return 0;
 }
 
@@ -502,6 +527,44 @@ int GamePark::initPlanes()
 
     }
     setCollision(node,m_player);
+    return 0;
+}
+
+int GamePark::initEagle()
+{
+    scene::IAnimatedMesh* mesh;
+    scene::IAnimatedMeshSceneNode* eagleNode;
+    mesh = smgr()->getMesh(Common::modelsPath()+"eagle.md2");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    eagleNode = smgr()->addAnimatedMeshSceneNode( mesh );
+    if (eagleNode)
+    {
+
+        eagleNode->setScale(core::vector3df(5.0f,5.0f,5.0f));
+        if(!shadows)eagleNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        eagleNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        eagleNode->setPosition(core::vector3df(6000*2,275*2,28900*2));
+        eagleNode->setPosition(core::vector3df(6000*2,1075*2,28900*2));
+        eagleNode->setFrameLoop(0,15);
+        eagleNode->setAnimationSpeed(12);
+
+        scene::ISceneNodeAnimator* anim = 0;
+//        anim = smgr()->createFlyCircleAnimator(core::vector3df(6000*2,1075*2,28900*2),2550.0f,0.0003f);
+//        eagleNode->addAnimator(anim);
+
+        anim = smgr()->createRotationAnimator(core::vector3df(0,5,0));
+        eagleNode->addAnimator(anim);
+        eagleNode->setName("eagle");
+        anim->drop();
+
+        eagleNode->setMaterialTexture( 0, texture("eagle.jpg") );
+        //eagleNode->setMaterialType(video::EMT_DETAIL_MAP);
+
+    }
     return 0;
 }
 

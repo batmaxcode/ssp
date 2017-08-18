@@ -124,6 +124,7 @@ private:
     int initRoads();
     int initCurb();
     int initPlanes();
+    int initEagle();
     void setCollision(scene::IAnimatedMeshSceneNode* node,
                       Player* player);
     void setCollision(scene::IMeshSceneNode* node,
