@@ -3,7 +3,6 @@
 #include "config/inireader.h"
 #include "RealisticWater.h"
 #include "postprocessmotionblur.h"
-#include "childsquarenode.h"
 #include "collision.h"
 
 #ifdef _MSC_VER
@@ -30,6 +29,8 @@ GamePark::~GamePark()
 {
     delete receiver;
     delete m_player;
+    delete m_fountainSquareNode;
+    delete m_childSquareNode;
 }
 
 void GamePark::exit()
@@ -46,7 +47,7 @@ int GamePark::initWorld()
     initRoads();
     initCurb();
     initPlanes();
-    initWaterpool();
+    initFountain();
     initChildSquare();
     initSkybox();
     initLight();
@@ -132,7 +133,7 @@ int GamePark::initWater()
         core::dimension2d<u32>(60,60), 0, 0,
         core::dimension2d<f32>(0,0),
         core::dimension2d<f32>(60,60));
-    scene::ISceneNode* waternode = nullptr;
+    scene::ISceneNode* waternode;
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(35860,105*2,45900));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -154,7 +155,6 @@ int GamePark::initWater()
         core::dimension2d<u32>(43,40), 0, 0,
         core::dimension2d<f32>(0,0),
         core::dimension2d<f32>(60,60));
-    waternode = nullptr;
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(51060,105*2,29800));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -176,7 +176,6 @@ int GamePark::initWater()
         core::dimension2d<u32>(90,80), 0, 0,
         core::dimension2d<f32>(0,0),
         core::dimension2d<f32>(60,60));
-    waternode = nullptr;
     waternode = smgr()->addWaterSurfaceSceneNode(mesh->getMesh(0), 6.0f, 300.0f, 100.0f);
     waternode->setPosition(core::vector3df(48600,95*2,29800));
     waternode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -193,47 +192,18 @@ int GamePark::initWater()
     return 0;
 }
 
-int GamePark::initWaterpool()
+int GamePark::initFountain()
 {
-    scene::IMesh* mesh = smgr()->getMesh("../../media/models/waterpool3.b3d");
-    if (!mesh)
-    {
-        device()->drop();
-        return 1;
-    }
-    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(core::vector3df(770.0f,770.0f,770.0f));
-        if(!shadows)node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-        node->setPosition(core::vector3df(4990*2,180*2,29400*2));
-
-        node->setRotation(core::vector3df(0,180,0));
-        //node->addShadowVolumeSceneNode();
-        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/sand3.jpg") );
-        node->setMaterialTexture(1,driver()->getTexture("../../media/shadow.jpg"));
-        node->setMaterialType(video::EMT_LIGHTMAP);
-        node->getMaterial(0).NormalizeNormals = true;
-        node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
-        node->getMaterial(0).getTextureMatrix(1).setTextureScale(0.0405,0.04);
-        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.46,0.48);
-        //cube->getMaterial(0).getTextureMatrix(0).setTextureScale(u/3, v/3);
-        //cube->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
-        //cube->getMaterial(0).TextureLayer->TextureWrapV = video::ETC_REPEAT;
-        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
-
-    }
-    setCollision(node,m_player);
-    return 0;
+    m_fountainSquareNode = new FountainSquareNode(device(), m_player);
+    m_fountainSquareNode->setFog(m_config.fog());
+    return m_fountainSquareNode->load();
 }
 
 int GamePark::initChildSquare()
 {
-    ChildSquareNode* node = new ChildSquareNode(device(), m_player);
-    node->setFog(m_config.fog());
-    return node->load();
+    m_childSquareNode = new ChildSquareNode(device(), m_player);
+    m_childSquareNode->setFog(m_config.fog());
+    return m_childSquareNode->load();
 }
 
 
@@ -344,38 +314,38 @@ int GamePark::initReceiver()
 
 int GamePark::initTestObj()
 {
-    scene::IMesh* mesh = smgr()->getMesh("../../media/models/cube.b3d");
-    if (!mesh)
-    {
-        device()->drop();
-        return 1;
-    }
-    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(core::vector3df(570.0f,570.0f,570.0f));
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setPosition(m_player->camera()->getPosition());
+//    scene::IMesh* mesh = smgr()->getMesh("../../media/models/cube.b3d");
+//    if (!mesh)
+//    {
+//        device()->drop();
+//        return 1;
+//    }
+//    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(core::vector3df(570.0f,570.0f,570.0f));
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setPosition(m_player->camera()->getPosition());
 
-        node->setRotation(core::vector3df(0,180,0));
-        //node->addShadowVolumeSceneNode();
-        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, driver()->getTexture("../../media/fort_stone.jpg") );
-        node->setMaterialTexture( 1, driver()->getTexture("../../media/sand3.jpg") );
-//        node->setMaterialTexture( 1,driver()->getTexture("../../media/shadow.jpg"));
-//        node->setMaterialType(video::EMT_LIGHTMAP);
-//        node->getMaterial(0).NormalizeNormals = true;
-//        node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
-        node->getMaterial(0).getTextureMatrix(0).setTextureScale(0.40,0.40);
-//        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.46,0.48);
-        //cube->getMaterial(0).getTextureMatrix(0).setTextureScale(u/3, v/3);
-        //cube->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
-        //cube->getMaterial(0).TextureLayer->TextureWrapV = video::ETC_REPEAT;
-        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+//        node->setRotation(core::vector3df(0,180,0));
+//        //node->addShadowVolumeSceneNode();
+//        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setMaterialTexture( 0, driver()->getTexture("../../media/fort_stone.jpg") );
+//        node->setMaterialTexture( 1, driver()->getTexture("../../media/sand3.jpg") );
+////        node->setMaterialTexture( 1,driver()->getTexture("../../media/shadow.jpg"));
+////        node->setMaterialType(video::EMT_LIGHTMAP);
+////        node->getMaterial(0).NormalizeNormals = true;
+////        node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
+//        node->getMaterial(0).getTextureMatrix(0).setTextureScale(0.40,0.40);
+////        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.46,0.48);
+//        //cube->getMaterial(0).getTextureMatrix(0).setTextureScale(u/3, v/3);
+//        //cube->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
+//        //cube->getMaterial(0).TextureLayer->TextureWrapV = video::ETC_REPEAT;
+//        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
 
-    }
-    setCollision(node,m_player);
+//    }
+//    setCollision(node,m_player);
     return 0;
 }
 

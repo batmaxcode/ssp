@@ -7,11 +7,10 @@
 #include "config/config.h"
 #include "player.h"
 #include "myeventreceiver.h"
+#include "childsquarenode.h"
+#include "fountainsquarenode.h"
 
 using namespace irr;
-
-
-
 
 enum
 {
@@ -100,6 +99,9 @@ private:
     gui::IGUIStaticText* m_fpsText = nullptr;
     const int m_forestSize = 5;
     scene::IMeshSceneNode* m_forest[5];
+    FountainSquareNode* m_fountainSquareNode = nullptr;
+    ChildSquareNode* m_childSquareNode = nullptr;
+
 
     scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
     unsigned short m_checkLodCounter;
@@ -109,7 +111,7 @@ private:
     void initEnvironment();
     void initPlayer();
     int initWater();
-    int initWaterpool();
+    int initFountain();
     int initChildSquare();
     int initWorld();
     int initTerrain();

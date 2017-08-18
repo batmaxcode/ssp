@@ -17,7 +17,9 @@ SOURCES += \
   src/player.cpp \
   src/RealisticWater.cpp \
     src/childsquarenode.cpp \
-    src/collision.cpp
+    src/collision.cpp \
+    src/abstractscenenode.cpp \
+    src/fountainsquarenode.cpp
 
 HEADERS += \
   src/gamepark.h \
@@ -29,7 +31,9 @@ HEADERS += \
   src/RealisticWater.h \
     src/postprocessmotionblur.h \
     src/childsquarenode.h \
-    src/collision.h
+    src/collision.h \
+    src/abstractscenenode.h \
+    src/fountainsquarenode.h
 
 LIBS += -L/home/user/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 LIBS += -L/home/max/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
