@@ -50,10 +50,12 @@ int GamePark::initWorld()
     initPlanes();
     initFountain();
     initChildSquare();
+    initAttractionSquare();
     initSkybox();
     initLight();
     initTestObj();
-    initEagle();
+    initEagle(core::vector3df(12000,2300,56000), 3900.0f, 0.08f);
+    initEagle(core::vector3df(17000,2800,50000), 4200.0f, 0.06f);
     return 0;
 }
 
@@ -111,7 +113,7 @@ void GamePark::initPlayer()
     smgr()->setActiveCamera(m_player->camera());
 
     m_player->setPosition(9160,535*2,58440);
-    m_player->setPosition(29160,535*2,50440); // озера
+//    m_player->setPosition(29160,535*2,50440); // озера
 //    m_player->setPosition(59160,1035*2,58440); // берег у реки
 //    m_player->setPosition(59160,1035*2,20440); // берег у залива
 }
@@ -208,6 +210,12 @@ int GamePark::initChildSquare()
     return m_childSquareNode->load();
 }
 
+int GamePark::initAttractionSquare()
+{
+    m_attractionSquareNode = new AttractionSquareNode(device(), m_player);
+    m_attractionSquareNode->setFog(m_config.fog());
+    return m_attractionSquareNode->load();
+}
 
 int GamePark::initTerrain()
 {
@@ -530,7 +538,7 @@ int GamePark::initPlanes()
     return 0;
 }
 
-int GamePark::initEagle()
+int GamePark::initEagle(core::vector3df center, float radius, float speed)
 {
     scene::IAnimatedMesh* mesh;
     scene::IAnimatedMeshSceneNode* eagleNode;
@@ -545,18 +553,19 @@ int GamePark::initEagle()
     {
 
         eagleNode->setScale(core::vector3df(5.0f,5.0f,5.0f));
-        if(!shadows)eagleNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        eagleNode->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         eagleNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        eagleNode->setPosition(core::vector3df(6000*2,275*2,28900*2));
-        eagleNode->setPosition(core::vector3df(6000*2,1075*2,28900*2));
+        eagleNode->setPosition(center);
+        eagleNode->setRotation(core::vector3df(0,-90,0));
         eagleNode->setFrameLoop(0,15);
         eagleNode->setAnimationSpeed(12);
 
         scene::ISceneNodeAnimator* anim = 0;
-//        anim = smgr()->createFlyCircleAnimator(core::vector3df(6000*2,1075*2,28900*2),2550.0f,0.0003f);
-//        eagleNode->addAnimator(anim);
+        anim = smgr()->createFlyCircleAnimator(center, radius,
+                                               (2*core::PI/1000.0f)*speed);
+        eagleNode->addAnimator(anim);
 
-        anim = smgr()->createRotationAnimator(core::vector3df(0,5,0));
+        anim = smgr()->createRotationAnimator(core::vector3df(0,(3.6)*speed,0));
         eagleNode->addAnimator(anim);
         eagleNode->setName("eagle");
         anim->drop();

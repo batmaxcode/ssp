@@ -89,13 +89,14 @@ int FountainSquareNode::initSquare()
         node->setPosition(core::vector3df(4990*2,180*2,29400*2));
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, texture("sand3.jpg") );
+        node->setMaterialTexture(0, texture("sand3.jpg") );
         node->setMaterialTexture(1, texture("shadow.jpg"));
         node->setMaterialType(video::EMT_LIGHTMAP);
         node->getMaterial(0).NormalizeNormals = true;
         node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
-        node->getMaterial(0).getTextureMatrix(1).setTextureScale(0.0405,0.04);
-        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.46,0.48);
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(25,25);
+        node->getMaterial(0).getTextureMatrix(1).setTextureScale(1.135,1.141);
+        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.88,0.942);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
         Collision::setCollision(node,m_player,m_smgr);

@@ -20,7 +20,8 @@ SOURCES += \
   src/collision.cpp \
   src/abstractscenenode.cpp \
   src/fountainsquarenode.cpp \
-  src/common.cpp
+  src/common.cpp \
+    src/attractionsquarenode.cpp
 
 HEADERS += \
   src/gamepark.h \
@@ -35,7 +36,8 @@ HEADERS += \
   src/collision.h \
   src/abstractscenenode.h \
   src/fountainsquarenode.h \
-  src/common.h
+  src/common.h \
+    src/attractionsquarenode.h
 
 LIBS += -L/home/user/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 LIBS += -L/home/max/irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11

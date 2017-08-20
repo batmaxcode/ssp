@@ -128,14 +128,14 @@ int ChildSquareNode::initSquare()
 
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setMaterialTexture( 0, texture("sand3.jpg") );
-        node->setMaterialTexture(1, texture("shadow.jpg"));
+        node->setMaterialTexture(0, texture("sand3.jpg") );
+        node->setMaterialTexture(1, texture("child_square_shadow.jpg"));
         node->setMaterialType(video::EMT_LIGHTMAP);
         node->getMaterial(0).NormalizeNormals = true;
         node->getMaterial(0).TextureLayer[1].AnisotropicFilter = 16;
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(20,20);
-        node->getMaterial(0).getTextureMatrix(1).setTextureScale(0.0405,0.04);
-        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0.46,0.48);
+//        node->getMaterial(0).getTextureMatrix(1).setTextureScale(3.9,3.9);
+//        node->getMaterial(0).getTextureMatrix(1).setTextureTranslate(0,0);
         //cube->getMaterial(0).getTextureMatrix(0).setTextureScale(u/3, v/3);
         //cube->getMaterial(0).TextureLayer->TextureWrapU = video::ETC_REPEAT;
         //cube->getMaterial(0).TextureLayer->TextureWrapV = video::ETC_REPEAT;

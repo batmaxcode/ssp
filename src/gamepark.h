@@ -9,6 +9,7 @@
 #include "myeventreceiver.h"
 #include "childsquarenode.h"
 #include "fountainsquarenode.h"
+#include "attractionsquarenode.h"
 
 using namespace irr;
 
@@ -101,6 +102,7 @@ private:
     scene::IMeshSceneNode* m_forest[5];
     FountainSquareNode* m_fountainSquareNode = nullptr;
     ChildSquareNode* m_childSquareNode = nullptr;
+    AttractionSquareNode* m_attractionSquareNode = nullptr;
 
 
     scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
@@ -113,6 +115,7 @@ private:
     int initWater();
     int initFountain();
     int initChildSquare();
+    int initAttractionSquare();
     int initWorld();
     int initTerrain();
     int initSkybox();
@@ -124,7 +127,7 @@ private:
     int initRoads();
     int initCurb();
     int initPlanes();
-    int initEagle();
+    int initEagle(core::vector3df center, float radius, float speed = 0.2);
     void setCollision(scene::IAnimatedMeshSceneNode* node,
                       Player* player);
     void setCollision(scene::IMeshSceneNode* node,
