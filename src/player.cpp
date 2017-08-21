@@ -131,15 +131,31 @@ void Player::setAnimationFire(bool val, bool hard)
             m_node->setFrameLoop(30,50);
             m_node->setAnimationSpeed(120);
             m_node->setLoopMode(true);
+            if(m_shotSound == nullptr)
+            {
+                m_shotSound = m_soundEngine->play2D("../../media/sounds/shots.ogg", true ,false, true);
+            }
         }
         else if(m_animationMove == true)
         {
             setAnimationMove(true, true);
+            if(m_shotSound != nullptr)
+            {
+                m_shotSound->stop();
+                m_shotSound->drop();
+                m_shotSound = nullptr;
+            }
         }
         else
         {
             m_node->setFrameLoop(0,0);
             m_node->setLoopMode(false);
+            if(m_shotSound != nullptr)
+            {
+                m_shotSound->stop();
+                m_shotSound->drop();
+                m_shotSound = nullptr;
+            }
         }
     }
 }
@@ -160,7 +176,7 @@ void Player::setAnimationMove(bool val, bool hard)
             m_node->setLoopMode(true);
             if(m_walkSound == nullptr)
             {
-                m_walkSound = m_soundEngine->play2D("../../media/sounds/walk.ogg");
+                m_walkSound = m_soundEngine->play2D("../../media/sounds/walk.ogg", true, false, true);
             }
         }
         else
@@ -169,10 +185,8 @@ void Player::setAnimationMove(bool val, bool hard)
             m_node->setLoopMode(false);
             if(m_walkSound != nullptr)
             {
-                m_soundEngine->stopAllSounds();
                 m_walkSound->stop();
                 m_walkSound->drop();
-                delete m_walkSound;
                 m_walkSound = nullptr;
             }
         }

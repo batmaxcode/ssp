@@ -33,6 +33,7 @@ private:
     irr::scene::IAnimatedMeshSceneNode* m_node;
     irrklang::ISoundEngine* m_soundEngine;
     irrklang::ISound* m_walkSound = nullptr;
+    irrklang::ISound* m_shotSound = nullptr;
     bool m_animationFire;
     bool m_animationMove;
 
