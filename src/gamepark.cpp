@@ -5,10 +5,14 @@
 #include "postprocessmotionblur.h"
 #include "collision.h"
 #include "common.h"
+#include <irrKlang.h>
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 #endif
+
+using namespace irrklang;
 
 GamePark::GamePark() :
     m_checkLodCounter(0)
@@ -24,6 +28,7 @@ GamePark::GamePark() :
     initPlayer();
     initWorld();
     initReceiver();
+    initSounds();
 }
 
 GamePark::~GamePark()
@@ -535,6 +540,26 @@ int GamePark::initPlanes()
 
     }
     setCollision(node,m_player);
+    return 0;
+}
+
+int GamePark::initSounds()
+{
+    // start the sound engine with default parameters
+    ISoundEngine* engine = createIrrKlangDevice();
+
+    if (!engine)
+    {
+        printf("Could not startup engine\n");
+        return 1; // error starting up the engine
+    }
+
+    // To play a sound, we only to call play2D(). The second parameter
+    // tells the engine to play it looped.
+
+    // play some sound stream, looped
+    engine->play2D("../../media/sounds/nature.ogg", true);
+    m_player->setSoundEngine(engine);
     return 0;
 }
 

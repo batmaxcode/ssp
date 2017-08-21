@@ -127,6 +127,7 @@ private:
     int initRoads();
     int initCurb();
     int initPlanes();
+    int initSounds();
     int initEagle(core::vector3df center, float radius, float speed = 0.2);
     void setCollision(scene::IAnimatedMeshSceneNode* node,
                       Player* player);

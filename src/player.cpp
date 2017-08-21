@@ -2,6 +2,7 @@
 #include <iostream>
 
 using namespace irr;
+using namespace irrklang;
 
 Player::Player(IrrlichtDevice* device) :
     m_device(device),
@@ -157,11 +158,23 @@ void Player::setAnimationMove(bool val, bool hard)
             m_node->setFrameLoop(10,30);
             m_node->setAnimationSpeed(35);
             m_node->setLoopMode(true);
+            if(m_walkSound == nullptr)
+            {
+                m_walkSound = m_soundEngine->play2D("../../media/sounds/walk.ogg");
+            }
         }
         else
         {
             m_node->setFrameLoop(0,0);
             m_node->setLoopMode(false);
+            if(m_walkSound != nullptr)
+            {
+                m_soundEngine->stopAllSounds();
+                m_walkSound->stop();
+                m_walkSound->drop();
+                delete m_walkSound;
+                m_walkSound = nullptr;
+            }
         }
     }
 }
@@ -209,6 +222,11 @@ void Player::setRun(bool run)
 bool Player::animationFire() const
 {
     return m_animationFire;
+}
+
+void Player::setSoundEngine(irrklang::ISoundEngine *soundEngine)
+{
+    m_soundEngine = soundEngine;
 }
 
 void Player::setKeyPressed(EKEY_CODE key, bool pressed)

@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <irrlicht.h>
+#include <irrKlang.h>
 
 class Player
 {
@@ -20,12 +21,18 @@ public:
     void setRun(bool run);
     bool animationFire() const;
 
+
+
+    void setSoundEngine(irrklang::ISoundEngine *soundEngine);
+
 private:
     irr::scene::ICameraSceneNode* m_camera;
     irr::IrrlichtDevice* m_device;
     irr::scene::ISceneNode *m_fire;
     irr::scene::ISceneNode *pricel;
     irr::scene::IAnimatedMeshSceneNode* m_node;
+    irrklang::ISoundEngine* m_soundEngine;
+    irrklang::ISound* m_walkSound = nullptr;
     bool m_animationFire;
     bool m_animationMove;
 

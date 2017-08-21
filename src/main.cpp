@@ -16,7 +16,107 @@ Now you know how to use terrain in Irrlicht.
 **/
 
 
+//#include <irrlicht.h>
+//#include <time.h>
 
+//using namespace irr;
+//using namespace core;
+//using namespace video;
+
+//dimension2di posMouse;
+
+//class MyShaderCallBack : public IShaderConstantSetCallBack
+//{
+//public:
+
+//    virtual void OnSetConstants(IMaterialRendererServices* services, s32 userData)
+//    {
+//        IVideoDriver* driver = services->getVideoDriver();
+//        f32 resolution[2] = {driver->getScreenSize().Width,
+//                                driver->getScreenSize().Height};
+//                        //driver->get
+//        // Получаем время
+//        f32 tm = clock() / 10000;
+//        //s32 texture = 0;
+//        f32 array[2] = {posMouse.Width, posMouse.Height};
+//#if (IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR == 8)
+//        services->setVertexShaderConstant("time", &tm, 1);
+//        services->setVertexShaderConstant("resolution", resolution, 2);
+//        services->setVertexShaderConstant("mouse", array, 2);
+//#elif (IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR == 9)
+//        // Пока не реализовывал
+//#endif
+//    }
+
+//};
+
+
+//int main()
+//{
+//    // Ну, тут и коментрировать нечего ))
+//    IrrlichtDevice* device = createDevice(EDT_OPENGL, dimension2du(800, 600));
+//    IVideoDriver* driver = device->getVideoDriver();
+//    // Кошмар! Мы не используем менеджер сцены...
+//    // ISceneManager* smgr = device->getSceneManager();
+
+//    // Путь к файлам
+//    io::path vert = "../../shaders/test/vert.glsl"; // Вершинный шейдер
+//    io::path frag = "../../shaders/test/frag.glsl"; // Фрагментный шейдер
+
+//    // Создание нового шейдерного материала
+//    video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices();
+//    s32 newMaterialType = 0;
+//    if (gpu)
+//    {
+//        MyShaderCallBack* mc = new MyShaderCallBack();
+//            newMaterialType = gpu->addHighLevelShaderMaterialFromFiles(vert, frag, mc);
+//        mc->drop();
+//    }
+
+//    SMaterial material;
+//        material.MaterialType = (E_MATERIAL_TYPE)newMaterialType;
+//        material.Lighting = false;
+
+//    // Устанавливаем текущий материал
+//    driver->setMaterial(material);
+
+
+//    // Создаём квадрат
+//    scene::SMeshBuffer mb;
+//    mb.Indices.set_used(6);
+//        mb.Indices[0] = 0;
+//        mb.Indices[1] = 1;
+//        mb.Indices[2] = 2;
+//        mb.Indices[3] = 0;
+//        mb.Indices[4] = 2;
+//        mb.Indices[5] = 3;
+
+//    mb.Vertices.set_used (4);
+//        mb.Vertices[0].Pos.set (-1.f, -1.f, 1.f);
+//        mb.Vertices[0].TCoords.set(0.0f, 0.0f);
+
+//        mb.Vertices[1].Pos.set (-1.f, 1.f, 1.f);
+//        mb.Vertices[1].TCoords.set(0.0f, 1.0f);
+
+//        mb.Vertices[2].Pos.set (1.f, 1.f, 1.f);
+//        mb.Vertices[2].TCoords.set(1.0f, 1.0f);
+
+//        mb.Vertices[3].Pos.set (1.f, -1.f, 1.f);
+//        mb.Vertices[3].TCoords.set(1.0f, 0.0f);
+
+//    // Главный цикл
+//    while(device->run())
+//        if (device->isWindowActive())
+//        {
+//            posMouse = device->getCursorControl()->getPosition();
+//            driver->beginScene();
+//                driver->drawMeshBuffer(&mb);
+//            driver->endScene();
+//        }
+
+//    device->drop();
+//    return 0;
+//}
 
 
 
