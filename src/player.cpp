@@ -134,6 +134,7 @@ void Player::setAnimationFire(bool val, bool hard)
             if(m_shotSound == nullptr)
             {
                 m_shotSound = m_soundEngine->play2D("../../media/sounds/shots.ogg", true ,false, true);
+                m_shotSound->setVolume(0.2);
             }
         }
         else if(m_animationMove == true)
@@ -230,6 +231,27 @@ void Player::setRun(bool run)
         scene::ISceneNodeAnimatorCameraFPS *anim=(scene::ISceneNodeAnimatorCameraFPS*)*anims;
         anim->setMoveSpeed(speed);
 //        anim->drop();
+
+        if(m_animationMove == false)
+        {
+            return;
+        }
+
+        if(m_walkSound != nullptr)
+        {
+            m_walkSound->stop();
+            m_walkSound->drop();
+            m_walkSound = nullptr;
+
+        }
+        if(run == true)
+        {
+            m_walkSound = m_soundEngine->play2D("../../media/sounds/run.ogg", true, false, true);
+        }
+        else
+        {
+            m_walkSound = m_soundEngine->play2D("../../media/sounds/walk.ogg", true, false, true);
+        }
     }
 }
 

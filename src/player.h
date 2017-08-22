@@ -34,6 +34,7 @@ private:
     irrklang::ISoundEngine* m_soundEngine;
     irrklang::ISound* m_walkSound = nullptr;
     irrklang::ISound* m_shotSound = nullptr;
+    irrklang::ISound* m_runSound = nullptr;
     bool m_animationFire;
     bool m_animationMove;
 
