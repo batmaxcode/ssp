@@ -48,7 +48,7 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-//    initForest();
+    initForest();
     initGrass();
     initRoads();
     initCurb();
@@ -748,7 +748,7 @@ int GamePark::run()
 
 
 
-//        forestLOD(m_player->camera()->getPosition());
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 // Для размытия

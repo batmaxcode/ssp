@@ -14,6 +14,8 @@ public:
 
 private:
     int initTrack();
+    int initCarousel();
+    int initWheel();
 };
 
 #endif // ATTRACTIONSQUARENODE_H

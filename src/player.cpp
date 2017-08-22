@@ -221,7 +221,7 @@ void Player::setRun(bool run)
     if(m_run != run)
     {
         m_run = run;
-        f32 speed = 1.2;
+        f32 speed = 0.8;
         if(run == true)
         {
             speed = 3.2;
