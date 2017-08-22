@@ -18,7 +18,8 @@ bool Config::load(const std::string &filename)
     m_params.WindowSize.Width = reader.getInteger("general","width",800);
     m_params.Fullscreen = reader.getBoolean("general","fullScreen",false);
     m_params.Vsync = reader.getBoolean("general","vSync",false);
-    m_params.Stencilbuffer = reader.getInteger("general","vSync",1);
+    m_params.Stencilbuffer = reader.getBoolean("general","stencilBuffer",false);
+    m_params.AntiAlias = reader.getInteger("general","antiAlias",8);
     setFreeFly( reader.getBoolean("general","freeFly",false) );
     setFog( reader.getBoolean("general","fog",false) );
     return true;

@@ -48,7 +48,8 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-//    initForest();
+    initForest();
+    initShrub();
     initGrass();
     initRoads();
     initCurb();
@@ -413,6 +414,35 @@ int GamePark::initForest()
     return 0;
 }
 
+int GamePark::initShrub()
+{
+    scene::IMesh* mesh;
+    scene::IMeshSceneNode* node;
+    mesh = smgr()->getMesh(Common::modelsPath()+"shrub_1.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(3.2f,3.2f,3.2f));
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->setPosition(core::vector3df(28540,0,60340));
+        node->setRotation(core::vector3df(0,180,0));
+        //node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+        node->setMaterialTexture( 0, texture("textura_kust_2.png") );
+        //node->getMaterial(0).NormalizeNormals = true;
+        node->getMaterial(0).TextureLayer[0].BilinearFilter = true;
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
+        //node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+
+    }
+    return 0;
+}
+
 int GamePark::initGrass()
 {
     core::vector3df scale = core::vector3df(60.0f,60.0f,60.0f);
@@ -433,10 +463,7 @@ int GamePark::initGrass()
         node->setPosition(pos);
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("grass/grass.png") );
-        if(m_config.fog() == true)
-        {
-            node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
-        }
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
         m_movableNode = (scene::IAnimatedMeshSceneNode*)node;
     }
     mesh->drop();
@@ -720,7 +747,7 @@ int GamePark::run()
 
 
 
-// Для размытия
+//// Для размытия
 //    /**Important stuff, Rendering textures setup.*/
 //        video::ITexture* mainTarget = driver()->addRenderTargetTexture(m_config.params().WindowSize,"mainTarget");
 //        video::ITexture* rtt0;
@@ -748,10 +775,10 @@ int GamePark::run()
 
 
 
-//        forestLOD(m_player->camera()->getPosition());
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
-// Для размытия
+//// Для размытия
 //        screenQuad->draw(driver(), rtt0, temp, m_config.params().WindowSize.Width,
 //                         m_config.params().WindowSize.Height, mainTarget);
         env()->drawAll();

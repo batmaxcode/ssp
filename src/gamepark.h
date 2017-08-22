@@ -123,6 +123,7 @@ private:
     int initReceiver();
     int initTestObj();
     int initForest();
+    int initShrub();
     int initGrass();
     int initRoads();
     int initCurb();
