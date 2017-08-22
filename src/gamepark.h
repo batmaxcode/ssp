@@ -91,6 +91,7 @@ public:
     scene::IAnimatedMeshSceneNode *movableNode() const;
 
 private:
+    irrklang::ISoundEngine* m_soundEngine;
     IrrlichtDevice* m_device = nullptr;
     Player* m_player = nullptr;
     scene::ISceneNode* skybox = nullptr;

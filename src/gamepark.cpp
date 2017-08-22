@@ -48,7 +48,7 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-    initForest();
+//    initForest();
     initShrub();
     initGrass();
     initRoads();
@@ -573,9 +573,9 @@ int GamePark::initPlanes()
 int GamePark::initSounds()
 {
     // start the sound engine with default parameters
-    ISoundEngine* engine = createIrrKlangDevice();
+    m_soundEngine = createIrrKlangDevice();
 
-    if (!engine)
+    if (!m_soundEngine)
     {
         printf("Could not startup engine\n");
         return 1; // error starting up the engine
@@ -585,8 +585,20 @@ int GamePark::initSounds()
     // tells the engine to play it looped.
 
     // play some sound stream, looped
-    engine->play2D("../../media/sounds/nature.ogg", true);
-    m_player->setSoundEngine(engine);
+    m_soundEngine->play2D("../../media/sounds/nature.ogg", true);
+    m_player->setSoundEngine(m_soundEngine);
+
+
+    vec3df pos(32300.0f, 380.0f, 56080.0f);
+
+    ISound* music = m_soundEngine->play3D("../../media/sounds/lake_waves.ogg",
+                                   pos, true, false, true);
+    if (music)
+    {
+       music->setMinDistance(300.0f);
+       music->setVolume(1.0f);
+    }
+
     return 0;
 }
 
@@ -775,7 +787,7 @@ int GamePark::run()
 
 
 
-        forestLOD(m_player->camera()->getPosition());
+//        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 //// Для размытия
@@ -783,8 +795,12 @@ int GamePark::run()
 //                         m_config.params().WindowSize.Height, mainTarget);
         env()->drawAll();
 
-
-
+log("--");
+log(m_player->camera()->getPosition().X);
+log(m_player->camera()->getPosition().Y);
+log(m_player->camera()->getPosition().Z);
+m_soundEngine->setListenerPosition(m_player->camera()->getPosition(),
+                                   m_player->camera()->getTarget());
 
         collMan = smgr()->getSceneCollisionManager();
 
