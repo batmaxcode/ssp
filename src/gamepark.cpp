@@ -446,7 +446,7 @@ int GamePark::initShrub()
 
 int GamePark::initScam()
 {
-    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"scam_1.b3d");
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"scam_1_2.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -455,11 +455,11 @@ int GamePark::initScam()
     scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
     if (node)
     {
-        node->setScale(core::vector3df(3.2f,3.2f,3.2f));
+        node->setScale(core::vector3df(147.0f,147.0f,147.0f));
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(core::vector3df(28540,0,60340));
+        node->setPosition(core::vector3df(13060,140,58320));
         node->setMaterialTexture( 0, texture("scam.jpg") );
         node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
