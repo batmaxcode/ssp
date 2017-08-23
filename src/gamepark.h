@@ -108,6 +108,7 @@ private:
 
     scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
     unsigned short m_checkLodCounter;
+    unsigned short m_checkFpsCounter;
 
     void forestLOD(core::vector3df pos);
     int initDriver();
@@ -125,6 +126,7 @@ private:
     int initTestObj();
     int initForest();
     int initShrub();
+    int initScam();
     int initGrass();
     int initRoads();
     int initCurb();

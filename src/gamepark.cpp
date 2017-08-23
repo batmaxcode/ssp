@@ -48,8 +48,9 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-//    initForest();
+    initForest();
     initShrub();
+    initScam();
     initGrass();
     initRoads();
     initCurb();
@@ -443,6 +444,33 @@ int GamePark::initShrub()
     return 0;
 }
 
+int GamePark::initScam()
+{
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"scam_1.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(3.2f,3.2f,3.2f));
+        node->setRotation(core::vector3df(0,180,0));
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setPosition(core::vector3df(28540,0,60340));
+        node->setMaterialTexture( 0, texture("scam.jpg") );
+        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
+
+    }
+    setCollision(node,m_player);
+    mesh->drop();
+    return 0;
+}
+
 int GamePark::initGrass()
 {
     core::vector3df scale = core::vector3df(60.0f,60.0f,60.0f);
@@ -486,16 +514,12 @@ int GamePark::initRoads()
 //        node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         node->setPosition(core::vector3df(9730*2,150*2,26555*2));
-        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
         node->setMaterialTexture( 0, texture("asphalt.jpg") );
         node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(200,200);
         //node->setMaterialType(video::EMT_DETAIL_MAP);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
-        if(m_config.fog() == true)
-        {
-            node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
-        }
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
 
     }
     setCollision(node,m_player);
@@ -522,15 +546,16 @@ int GamePark::initCurb()
         //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
         node->setMaterialTexture( 0, texture("curb2.jpg") );
 //        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
-        node->getMaterial(0).getTextureMatrix(0).setTextureScale(40,40);
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(80,80);
         node->getMaterial(1).getTextureMatrix(0).setTextureScale(40,40);
         node->getMaterial(2).getTextureMatrix(0).setTextureScale(40,40);
         //node->setMaterialType(video::EMT_DETAIL_MAP);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
-        if(m_config.fog() == true)
-        {
-            node->setMaterialFlag(video::EMF_FOG_ENABLE, true);
-        }
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
+
+//        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
+//        node->getMaterial(0).getTextureMatrix(1).setTextureScale(100,100);
+//        node->setMaterialType(video::EMT_DETAIL_MAP);
 
 //        node->getMaterial(0).getTextureMatrix(0).setTextureScale(200, 200);
 
@@ -785,9 +810,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-
-
-//        forestLOD(m_player->camera()->getPosition());
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 //// Для размытия
@@ -795,12 +818,12 @@ int GamePark::run()
 //                         m_config.params().WindowSize.Height, mainTarget);
         env()->drawAll();
 
-log("--");
-log(m_player->camera()->getPosition().X);
-log(m_player->camera()->getPosition().Y);
-log(m_player->camera()->getPosition().Z);
-m_soundEngine->setListenerPosition(m_player->camera()->getPosition(),
-                                   m_player->camera()->getTarget());
+//log("--");
+//log(m_player->camera()->getPosition().X);
+//log(m_player->camera()->getPosition().Y);
+//log(m_player->camera()->getPosition().Z);
+        m_soundEngine->setListenerPosition(m_player->camera()->getPosition(),
+                                           m_player->camera()->getTarget());
 
         collMan = smgr()->getSceneCollisionManager();
 
@@ -863,8 +886,9 @@ m_soundEngine->setListenerPosition(m_player->camera()->getPosition(),
         int fps = driver()->getFPS();
         int count = driver()->getPrimitiveCountDrawn();
 //        if (lastFPS != fps)
-        if(m_checkLodCounter == 12)
+        if(m_checkFpsCounter > 12)
         {
+            m_checkFpsCounter = 0;
             core::stringw str = L"Driver [";
             str += driver()->getName();
             str += "] FPS:";
@@ -882,6 +906,7 @@ m_soundEngine->setListenerPosition(m_player->camera()->getPosition(),
 
             updateEnvironment(str);
         }
+        m_checkFpsCounter++;
 
     }
 
