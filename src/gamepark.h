@@ -130,6 +130,7 @@ private:
     int initGrass();
     int initRoads();
     int initCurb();
+    int initGarbage();
     int initPlanes();
     int initSounds();
     int initEagle(core::vector3df center, float radius, float speed = 0.2);

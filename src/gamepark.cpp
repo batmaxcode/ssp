@@ -48,7 +48,7 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-    initForest();
+//    initForest();
     initShrub();
     initScam();
     initGrass();
@@ -61,6 +61,7 @@ int GamePark::initWorld()
     initSkybox();
     initLight();
     initTestObj();
+    initGarbage();
     initEagle(core::vector3df(12000,2300,56000), 3900.0f, 0.08f);
     initEagle(core::vector3df(17000,2800,50000), 4200.0f, 0.06f);
     return 0;
@@ -565,6 +566,44 @@ int GamePark::initCurb()
     return 0;
 }
 
+int GamePark::initGarbage()
+{
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"garbage.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(86.0f,86.0f,86.0f));
+        node->setRotation(core::vector3df(0,180,0));
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setPosition(core::vector3df(9730*2,450,26555*2));
+        //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+        node->setMaterialTexture( 0, texture("garbage_ground.jpg") );
+//        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMaterial(0).getTextureMatrix(0).setTextureScale(80,80);
+        node->getMaterial(1).getTextureMatrix(0).setTextureScale(40,40);
+        node->getMaterial(2).getTextureMatrix(0).setTextureScale(40,40);
+        //node->setMaterialType(video::EMT_DETAIL_MAP);
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
+
+//        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
+//        node->getMaterial(0).getTextureMatrix(1).setTextureScale(100,100);
+//        node->setMaterialType(video::EMT_DETAIL_MAP);
+
+//        node->getMaterial(0).getTextureMatrix(0).setTextureScale(200, 200);
+
+    }
+    setCollision(node,m_player);
+    mesh->drop();
+    return 0;
+}
+
 int GamePark::initPlanes()
 {
     scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"main_plane.b3d");
@@ -810,7 +849,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-        forestLOD(m_player->camera()->getPosition());
+//        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 //// Для размытия
