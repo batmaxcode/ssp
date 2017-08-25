@@ -51,11 +51,11 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-    initForest();
+//    initForest();
     initShrub();
     initScam();
-    initBench();
-    initGrass();
+//    initBench();
+//    initGrass();
     initRoads();
     initCurb();
     initPlanes();
@@ -66,6 +66,7 @@ int GamePark::initWorld()
     initLight();
     initTestObj();
     initGarbage();
+    initChurch();
     initEagle(core::vector3df(12000,2300,56000), 3900.0f, 0.08f);
     initEagle(core::vector3df(17000,2800,50000), 4200.0f, 0.06f);
     return 0;
@@ -93,7 +94,7 @@ int GamePark::initDriver()
     driver()->setTextureCreationFlag(video::ETCF_ALWAYS_32_BIT, true);
     if(m_config.fog() == true)
     {
-        driver()->setFog(video::SColor(128,40,40,40), video::EFT_FOG_LINEAR, 250, 12000, .000f, true, false);
+        driver()->setFog(video::SColor(128,40,40,40), video::EFT_FOG_LINEAR, 250, 18000, .000f, true, false);
     }
     m_device->getCursorControl()->setVisible(false);
 
@@ -227,6 +228,13 @@ int GamePark::initAttractionSquare()
     m_attractionSquareNode = new AttractionSquareNode(device(), m_player);
     m_attractionSquareNode->setFog(m_config.fog());
     return m_attractionSquareNode->load();
+}
+
+int GamePark::initChurch()
+{
+    m_churchSceneNode = new ChurchSceneNode(device(), m_player);
+    m_churchSceneNode->setFog(m_config.fog());
+    return m_churchSceneNode->load();
 }
 
 int GamePark::initTerrain()

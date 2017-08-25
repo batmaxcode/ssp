@@ -22,7 +22,8 @@ SOURCES += \
   src/fountainsquarenode.cpp \
   src/common.cpp \
   src/attractionsquarenode.cpp \
-  src/grass/TKGrassSceneNode.cpp
+  src/grass/TKGrassSceneNode.cpp \
+  src/churchscenenode.cpp
 
 HEADERS += \
   src/gamepark.h \
@@ -40,7 +41,8 @@ HEADERS += \
   src/common.h \
   src/attractionsquarenode.h \
   src/grass/TKGrassSceneNode.h \
-  src/grass/TKGrassSceneNode_ShaderCB.h
+  src/grass/TKGrassSceneNode_ShaderCB.h \
+  src/churchscenenode.h
 
 LIBS += -L../../irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 LIBS += -L../../irrKlang-64bit-1.5.0/bin/linux-gcc-64/ -lIrrKlang

@@ -10,6 +10,7 @@
 #include "childsquarenode.h"
 #include "fountainsquarenode.h"
 #include "attractionsquarenode.h"
+#include "churchscenenode.h"
 
 using namespace irr;
 
@@ -104,6 +105,7 @@ private:
     FountainSquareNode* m_fountainSquareNode = nullptr;
     ChildSquareNode* m_childSquareNode = nullptr;
     AttractionSquareNode* m_attractionSquareNode = nullptr;
+    ChurchSceneNode* m_churchSceneNode = nullptr;
 
 
     scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
@@ -119,6 +121,7 @@ private:
     int initFountain();
     int initChildSquare();
     int initAttractionSquare();
+    int initChurch();
     int initWorld();
     int initTerrain();
     int initSkybox();
