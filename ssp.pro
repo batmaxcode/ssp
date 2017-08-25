@@ -21,7 +21,8 @@ SOURCES += \
   src/abstractscenenode.cpp \
   src/fountainsquarenode.cpp \
   src/common.cpp \
-  src/attractionsquarenode.cpp
+  src/attractionsquarenode.cpp \
+  src/grass/TKGrassSceneNode.cpp
 
 HEADERS += \
   src/gamepark.h \
@@ -37,16 +38,18 @@ HEADERS += \
   src/abstractscenenode.h \
   src/fountainsquarenode.h \
   src/common.h \
-  src/attractionsquarenode.h
+  src/attractionsquarenode.h \
+  src/grass/TKGrassSceneNode.h \
+  src/grass/TKGrassSceneNode_ShaderCB.h
 
 LIBS += -L../../irrlicht-1.8.4/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 LIBS += -L../../irrKlang-64bit-1.5.0/bin/linux-gcc-64/ -lIrrKlang
-#LIBS += -L/home/user/irrlicht-1.7.3/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
+#LIBS += -L../../irrlicht-1.7.3/lib/Linux/ -lIrrlicht -lGL -lGLU -lXxf86vm -lXext -lX11
 
 
 INCLUDEPATH += ../../irrlicht-1.8.4/include
 INCLUDEPATH += ../../irrKlang-64bit-1.5.0/include
-#INCLUDEPATH += /home/user/irrlicht-1.7.3/include
+#INCLUDEPATH += ../../irrlicht-1.7.3/include
 INCLUDEPATH += src
 
 OTHER_FILES += $$PWD/config/config.ini

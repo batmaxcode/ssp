@@ -19,7 +19,7 @@ public:
     {
     }
 
-    virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
+    virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 /*userData*/)
     {
             layer=0;
             services->setPixelShaderConstant("GrassTexture",(float*)&layer,1);

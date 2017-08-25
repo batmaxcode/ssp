@@ -6,6 +6,8 @@
 #include "collision.h"
 #include "common.h"
 #include <irrKlang.h>
+#include "TKGrassSceneNode.h"
+#include "TKGrassSceneNode_ShaderCB.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -17,6 +19,7 @@ using namespace irrklang;
 GamePark::GamePark() :
     m_checkLodCounter(0)
 {
+
     m_config.load("../../config/config.ini");
 
     initDriver();
@@ -48,9 +51,10 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-//    initForest();
+    initForest();
     initShrub();
     initScam();
+    initBench();
     initGrass();
     initRoads();
     initCurb();
@@ -472,6 +476,33 @@ int GamePark::initScam()
     return 0;
 }
 
+int GamePark::initBench()
+{
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"bench.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(51.0f,51.0f,51.0f));
+        node->setRotation(core::vector3df(0,180,0));
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setPosition(core::vector3df(14070,389,56270));
+        node->setMaterialTexture( 0, texture("bench.jpg") );
+        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
+
+    }
+    setCollision(node,m_player);
+    mesh->drop();
+    return 0;
+}
+
 int GamePark::initGrass()
 {
     core::vector3df scale = core::vector3df(60.0f,60.0f,60.0f);
@@ -496,6 +527,13 @@ int GamePark::initGrass()
         m_movableNode = (scene::IAnimatedMeshSceneNode*)node;
     }
     mesh->drop();
+
+
+
+    //
+
+    grassGen(14090.0f, 260.0f, 46060.0f, 1, 1, 12);
+
     return 0;
 }
 
@@ -568,7 +606,8 @@ int GamePark::initCurb()
 
 int GamePark::initGarbage()
 {
-    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"garbage.b3d");
+    core::vector3df pos(14790.0f, 459.0f, 46960.0f);
+    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"garbage_ground.b3d");
     if (!mesh)
     {
         m_device->drop();
@@ -579,18 +618,20 @@ int GamePark::initGarbage()
     {
         node->setScale(core::vector3df(86.0f,86.0f,86.0f));
         node->setRotation(core::vector3df(0,180,0));
-//        node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
         node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(core::vector3df(9730*2,450,26555*2));
+        node->setPosition(pos);
         //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
-        node->setMaterialTexture( 0, texture("garbage_ground.jpg") );
+        node->setMaterialTexture( 0, texture("garbage_ground.png") );
 //        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
-        node->getMaterial(0).getTextureMatrix(0).setTextureScale(80,80);
-        node->getMaterial(1).getTextureMatrix(0).setTextureScale(40,40);
-        node->getMaterial(2).getTextureMatrix(0).setTextureScale(40,40);
+//        node->getMaterial(0).getTextureMatrix(0).setTextureScale(80,80);
+//        node->getMaterial(1).getTextureMatrix(0).setTextureScale(40,40);
+//        node->getMaterial(2).getTextureMatrix(0).setTextureScale(40,40);
         //node->setMaterialType(video::EMT_DETAIL_MAP);
+        node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
         node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
+
 
 //        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
 //        node->getMaterial(0).getTextureMatrix(1).setTextureScale(100,100);
@@ -601,6 +642,43 @@ int GamePark::initGarbage()
     }
     setCollision(node,m_player);
     mesh->drop();
+
+
+
+    mesh = smgr()->getMesh(Common::modelsPath()+"garbage.b3d");
+        if (!mesh)
+        {
+            m_device->drop();
+            return 1;
+        }
+        node = smgr()->addMeshSceneNode( mesh );
+        if (node)
+        {
+            node->setScale(core::vector3df(86.0f,86.0f,86.0f));
+            node->setRotation(core::vector3df(0,180,0));
+            node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+            node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+            node->setPosition(pos);
+            //node->addShadowVolumeSceneNode(0,-1,false,5000.0f);
+            node->setMaterialTexture( 0, texture("garbage_brick.jpg") );
+    //        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+    //        node->getMaterial(0).getTextureMatrix(0).setTextureScale(80,80);
+    //        node->getMaterial(1).getTextureMatrix(0).setTextureScale(40,40);
+    //        node->getMaterial(2).getTextureMatrix(0).setTextureScale(40,40);
+            //node->setMaterialType(video::EMT_DETAIL_MAP);
+            node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+            node->setMaterialFlag(video::EMF_FOG_ENABLE, m_config.fog());
+
+
+    //        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
+    //        node->getMaterial(0).getTextureMatrix(1).setTextureScale(100,100);
+    //        node->setMaterialType(video::EMT_DETAIL_MAP);
+
+    //        node->getMaterial(0).getTextureMatrix(0).setTextureScale(200, 200);
+
+        }
+
+
     return 0;
 }
 
@@ -797,6 +875,27 @@ void GamePark::forestLOD(core::vector3df pos)
 
 }
 
+void GamePark::grassGen(f32 x,f32 y,f32 z, f32 u, f32 v, f32 s)
+{
+    TKGrassShaderCallBack* grassShaderCB=new TKGrassShaderCallBack();
+
+    s32 materialGrass=m_device->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
+        "../../shaders/grass/grass.vert", "vertexMain", video::EVST_VS_1_1,
+        "../../shaders/grass/grass.frag", "pixelMain", video::EPST_PS_1_1,
+        grassShaderCB, video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+
+    int xDiff = s*6;
+    int yDiff = s*6;
+    for(int i=0;i<u;i=i+s*8)
+    for(int j=0;j<v;j=j+s*8)
+    {
+        TKGrassSceneNode* temp=new TKGrassSceneNode(smgr()->getRootSceneNode(),smgr(),-1,materialGrass,7000);
+        temp->setPosition(vector3df(i+(rand()%xDiff)+x,y+50+(rand()%yDiff),j+(rand()%xDiff)+z));
+        temp->setScale(core::vector3df(s,s+1,s));
+    }
+
+
+}
 
 int GamePark::run()
 {

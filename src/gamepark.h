@@ -110,6 +110,7 @@ private:
     unsigned short m_checkLodCounter;
     unsigned short m_checkFpsCounter;
 
+    void grassGen(f32 x,f32 y,f32 z, f32 u = 35,f32 v = 35, f32 s = 8);
     void forestLOD(core::vector3df pos);
     int initDriver();
     void initEnvironment();
@@ -127,6 +128,7 @@ private:
     int initForest();
     int initShrub();
     int initScam();
+    int initBench();
     int initGrass();
     int initRoads();
     int initCurb();

@@ -119,6 +119,22 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
                          moveNode->getPosition().Y << " " <<
                          moveNode->getPosition().Z << std::endl << std::flush;
             return true;
+        case irr::KEY_KEY_T:
+            moveNode->setPosition(core::vector3df(moveNode->getPosition().X,
+                                                  moveNode->getPosition().Y+moveDist/3,
+                                                  moveNode->getPosition().Z));
+            std::cout << moveNode->getPosition().X << " " <<
+                         moveNode->getPosition().Y << " " <<
+                         moveNode->getPosition().Z << std::endl << std::flush;
+            return true;
+        case irr::KEY_KEY_U:
+            moveNode->setPosition(core::vector3df(moveNode->getPosition().X,
+                                                  moveNode->getPosition().Y-moveDist/3,
+                                                  moveNode->getPosition().Z));
+            std::cout << moveNode->getPosition().X << " " <<
+                         moveNode->getPosition().Y << " " <<
+                         moveNode->getPosition().Z << std::endl << std::flush;
+            return true;
         case irr::KEY_PLUS:
             moveNode->setScale(core::vector3df(moveNode->getScale().X + scaleCoef,
                                                moveNode->getScale().Y + scaleCoef,
