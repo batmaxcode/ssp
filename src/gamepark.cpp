@@ -51,7 +51,7 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-//    initForest();
+    initForest();
     initShrub();
     initScam();
 //    initBench();
@@ -67,6 +67,7 @@ int GamePark::initWorld()
     initTestObj();
     initGarbage();
     initChurch();
+    initHotel();
     initEagle(core::vector3df(12000,2300,56000), 3900.0f, 0.08f);
     initEagle(core::vector3df(17000,2800,50000), 4200.0f, 0.06f);
     return 0;
@@ -235,6 +236,13 @@ int GamePark::initChurch()
     m_churchSceneNode = new ChurchSceneNode(device(), m_player);
     m_churchSceneNode->setFog(m_config.fog());
     return m_churchSceneNode->load();
+}
+
+int GamePark::initHotel()
+{
+    m_hotelSceneNode = new HotelSceneNode(device(), m_player);
+    m_hotelSceneNode->setFog(m_config.fog());
+    return m_hotelSceneNode->load();
 }
 
 int GamePark::initTerrain()
@@ -956,7 +964,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-//        forestLOD(m_player->camera()->getPosition());
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 //// Для размытия

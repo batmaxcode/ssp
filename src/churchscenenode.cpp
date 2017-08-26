@@ -6,7 +6,7 @@ using namespace irr;
 ChurchSceneNode::ChurchSceneNode(irr::IrrlichtDevice* device, Player* player) :
     AbstractSceneNode(device, player)
 {
-    pos = core::vector3df(8390, 408, 40760);
+    pos = core::vector3df(5690, 408, 18760);
     scale = core::vector3df(450.0f,450.0f,450.0f);
 }
 
@@ -74,7 +74,6 @@ int ChurchSceneNode::initRoof()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_roof.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
@@ -103,7 +102,6 @@ int ChurchSceneNode::initSkeleton()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_skeleton.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
@@ -132,7 +130,6 @@ int ChurchSceneNode::initBase()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_base.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
@@ -161,7 +158,6 @@ int ChurchSceneNode::initDoors()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_doors.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
@@ -190,7 +186,6 @@ int ChurchSceneNode::initWindows()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_windows.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
@@ -219,7 +214,6 @@ int ChurchSceneNode::initDoorFrame()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_doorFrame.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
@@ -248,7 +242,6 @@ int ChurchSceneNode::initDecor()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_decor.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
@@ -277,7 +270,6 @@ int ChurchSceneNode::initBell()
         node->setRotation(core::vector3df(0,180,0));
         node->setMaterialTexture( 0, texture("church_bell.tga") );
         node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node, m_player, m_smgr);
 
         mesh->drop();
     }
