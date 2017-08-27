@@ -11,8 +11,9 @@ ChildSquareNode::ChildSquareNode(irr::IrrlichtDevice* device, Player* player) :
 int ChildSquareNode::load()
 {
     initSquare();
-    initFort();
-    initBridge();
+    initFortNew();
+//    initFort();
+//    initBridge();
     initAnimals();
     return 0;
 }
@@ -50,6 +51,37 @@ int ChildSquareNode::initAnimals()
         mesh->drop();
     }
 
+    return 0;
+}
+
+int ChildSquareNode::initFortNew()
+{
+    scene::IMesh* mesh = getMesh("child_square_fort_new.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    scene::IMeshSceneNode* node = m_smgr->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(252.0f,252.0f,252.0f));
+        node->setPosition(core::vector3df(9840, 320, 48670));
+        node->setRotation(core::vector3df(0,180,0));
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+        log("+++");
+        log(node->getMaterialCount());
+        node->getMaterial(0).setTexture(0,texture("brick.jpg") );
+        node->getMaterial(1).setTexture(0,texture("brick.jpg") );
+        node->getMaterial(2).setTexture(0,texture("fort_stone.jpg") );
+        node->getMaterial(3).setTexture(0,texture("bridge.jpg") );
+        node->getMaterial(4).setTexture(0,texture("rock_dirty.jpg") );
+        node->getMaterial(5).setTexture(0,texture("hotel_darkBrick.jpg") );
+    }
+//    Collision::setCollision(node, m_player, m_smgr);
     return 0;
 }
 

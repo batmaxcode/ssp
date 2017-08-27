@@ -18,6 +18,7 @@ private:
     int initWindows();
     int initBeton();
     int initDoors();
+    int initHotel();
 
     irr::core::vector3df pos;
     irr::core::vector3df scale;

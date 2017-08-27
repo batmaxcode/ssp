@@ -14,6 +14,7 @@ public:
 
 private:
     int initAnimals();
+    int initFortNew();
     int initFort();
     int initSquare();
     int initBridge();

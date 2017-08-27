@@ -52,10 +52,10 @@ int GamePark::initWorld()
     initTerrain();
 //    initWater();
     initForest();
-    initShrub();
+//    initShrub();
     initScam();
-//    initBench();
-//    initGrass();
+////    initBench();
+////    initGrass();
     initRoads();
     initCurb();
     initPlanes();
@@ -64,8 +64,8 @@ int GamePark::initWorld()
     initAttractionSquare();
     initSkybox();
     initLight();
-    initTestObj();
-    initGarbage();
+//    initTestObj();
+//    initGarbage();
     initChurch();
     initHotel();
     initEagle(core::vector3df(12000,2300,56000), 3900.0f, 0.08f);
@@ -127,6 +127,7 @@ void GamePark::initPlayer()
     smgr()->setActiveCamera(m_player->camera());
 
     m_player->setPosition(9160,535*2,58440);
+    m_player->setPosition(4690, 408, 18760); // church
 //    m_player->setPosition(29160,535*2,50440); // озера
 //    m_player->setPosition(59160,1035*2,58440); // берег у реки
 //    m_player->setPosition(59160,1035*2,20440); // берег у залива
@@ -348,30 +349,48 @@ int GamePark::initReceiver()
 
 int GamePark::initTestObj()
 {
-//    scene::IAnimatedMesh* mesh = m_device->getSceneManager()->getMesh(Common::modelsPath()+"wolf.x");
-//    if (!mesh)
-//    {
-//        m_device->drop();
-//    }
-//    scene::IAnimatedMeshSceneNode* node = m_device->getSceneManager()->addAnimatedMeshSceneNode(mesh );
-//    if (node)
-//    {
-//        //animnode->setScale(core::vector3df(30.0f,30.0f,30.0f));
-//        node->setScale(core::vector3df(300.0f,300.0f,300.0f));
-////        if(shadows)
-//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-//        //node->setPosition(core::vector3df(27,-40,20));
-//        node->setPosition(m_player->camera()->getPosition());
-//        //animnode->setPosition(core::vector3df(9170,610*2,60540));
-//        node->setRotation(core::vector3df(0,180,0));
-//        //node->addShadowVolumeSceneNode();
-////        m_node->setMaterialTexture( 0, m_device->getVideoDriver()->getTexture("../../media/textures/ak12.png") );
-//        node->setAnimationSpeed(10.f);
-//        node->setFrameLoop(0,17);
-////        setCollision(node, m_player);
+    scene::IAnimatedMesh* mesh = m_device->getSceneManager()->getMesh(Common::modelsPath()+"child_square_fort_test.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+    }
+    scene::IAnimatedMeshSceneNode* node = m_device->getSceneManager()->addAnimatedMeshSceneNode(mesh );
+    if (node)
+    {
+        //animnode->setScale(core::vector3df(30.0f,30.0f,30.0f));
+        node->setScale(core::vector3df(300.0f,300.0f,300.0f));
+//        if(shadows)
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        //node->setPosition(core::vector3df(27,-40,20));
+        node->setPosition(m_player->camera()->getPosition());
 
-//    }
+
+
+        //animnode->setPosition(core::vector3df(9170,610*2,60540));
+        node->setRotation(core::vector3df(0,180,0));
+        //node->addShadowVolumeSceneNode();
+//        node->setMaterialTexture( 0, texture("sand3.jpg") );
+
+log("-------------------------------");
+log(node->getMaterialCount());
+node->getMaterial(0).setTexture(0, texture("brick.jpg"));
+node->getMaterial(1).setTexture(0, texture("fort_stone.jpg"));
+node->getMaterial(2).setTexture(0, texture("fort_stone.jpg"));
+node->getMaterial(3).setTexture(0, texture("sand3.jpg"));
+//        for(int i=0;i<3;i++)
+//        {
+//            node->getMaterial(i).AntiAliasing = 8;
+//            for(int j=0;j<10;j++)
+//            {
+//                node->getMaterial(i).TextureLayer[j].AnisotropicFilter = 8;
+//                node->getMaterial(i).TextureLayer[j].BilinearFilter = 8;
+
+//            }
+//        }
+
+
+    }
     return 0;
 }
 
@@ -964,7 +983,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-        forestLOD(m_player->camera()->getPosition());
+//        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 //// Для размытия

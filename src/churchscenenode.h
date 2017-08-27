@@ -23,8 +23,11 @@ private:
     int initDecor();
     int initBell();
 
+    int initChurch();
+
     irr::core::vector3df pos;
     irr::core::vector3df scale;
+    irr::core::vector3df rot;
 };
 
 #endif // CHURCHSCENENODE_H

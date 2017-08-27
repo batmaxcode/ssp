@@ -3,6 +3,7 @@
 
 #include <irrlicht.h>
 #include "player.h"
+#include <iostream>
 
 class AbstractSceneNode
 {
@@ -17,6 +18,9 @@ public:
            {return m_driver->getTexture(irr::core::stringc("../../media/textures/")+filename);}
     inline irr::scene::IAnimatedMesh* getMesh(const irr::io::path &filename)
            {return m_smgr->getMesh(irr::core::stringc("../../media/models/")+filename);}
+    template<typename T>
+    inline void log(T string)
+         {std::cout << string << std::flush << std::endl;}
 
 protected:
     irr::scene::ISceneManager* m_smgr;
