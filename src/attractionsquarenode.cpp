@@ -45,8 +45,12 @@ int AttractionSquareNode::initTrack()
         node->getMaterial(6).setTexture( 0, texture("iron.jpg") );
         node->getMaterial(7).setTexture( 0, texture("rotor.png") );
         node->getMaterial(8).setTexture( 0, texture("rotor.png") );
+        node->getMaterial(9).setTexture( 0, texture("grid.png") );
         node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(30,30);
+        node->getMaterial(9).MaterialType = video::EMT_TRANSPARENT_ALPHA_CHANNEL;
+        node->getMaterial(9).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMaterial(9).getTextureMatrix(0).setTextureScale(100,100);
 
 
         //node->addShadowVolumeSceneNode(0,-1,false,10000);

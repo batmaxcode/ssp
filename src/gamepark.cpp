@@ -983,7 +983,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-//        forestLOD(m_player->camera()->getPosition());
+        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 //// Для размытия
