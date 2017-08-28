@@ -13,6 +13,7 @@ public:
     int load();
 
 private:
+    int initFountainNew();
     int initFountain();
     int initSquare();
     int initFlagpole();

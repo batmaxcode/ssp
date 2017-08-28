@@ -127,7 +127,7 @@ void GamePark::initPlayer()
     smgr()->setActiveCamera(m_player->camera());
 
     m_player->setPosition(9160,535*2,58440);
-    m_player->setPosition(4690, 408, 18760); // church
+//    m_player->setPosition(4690, 408, 18760); // church
 //    m_player->setPosition(29160,535*2,50440); // озера
 //    m_player->setPosition(59160,1035*2,58440); // берег у реки
 //    m_player->setPosition(59160,1035*2,20440); // берег у залива

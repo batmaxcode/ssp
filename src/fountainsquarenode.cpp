@@ -10,11 +10,51 @@ FountainSquareNode::FountainSquareNode(irr::IrrlichtDevice* device, Player* play
 
 int FountainSquareNode::load()
 {
+    initFountainNew();
     initSquare();
-    initFountain();
-    initFlagpole();
+//    initFountain();
+//    initFlagpole();
     initOpeningMonument();
-    initStoneBench();
+//    initStoneBench();
+    return 0;
+}
+
+int FountainSquareNode::initFountainNew()
+{
+    scene::IMesh* mesh;
+    scene::IMeshSceneNode* node;
+    mesh = getMesh("fountain.b3d");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    node = m_smgr->addMeshSceneNode( mesh );
+    if (node)
+    {
+        node->setScale(core::vector3df(270.0f,270.0f,270.0f));
+        node->setPosition(core::vector3df(9160,235*2,58440));
+        node->setRotation(core::vector3df(0,180,0));
+        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
+        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+
+        node->getMaterial(0).setTexture(0, texture("fountain.jpg") );
+        node->getMaterial(1).setTexture(0, texture("iron_gray.jpg") );
+        node->getMaterial(2).setTexture(0, texture("camen4.jpg") );
+        node->getMaterial(3).setTexture(0, texture("lenin.png"));
+        node->getMaterial(3).setTexture(1, texture("grass_dirty.jpg"));
+        node->getMaterial(3).getTextureMatrix(1).setTextureScale(10,10);
+        node->getMaterial(3).MaterialType = video::EMT_DETAIL_MAP;
+        node->getMaterial(4).setTexture(0, texture("camen.jpg"));
+        node->getMaterial(4).setTexture(1, texture("grass_dirty.jpg"));
+        node->getMaterial(4).getTextureMatrix(1).setTextureScale(10,10);
+        node->getMaterial(4).MaterialType = video::EMT_DETAIL_MAP;
+        node->getMaterial(5).setTexture(0, texture("iron.jpg") );
+
+        Collision::setCollision(node,m_player,m_smgr);
+    }
     return 0;
 }
 
@@ -174,55 +214,55 @@ int FountainSquareNode::initFlagpole()
 
 int FountainSquareNode::initOpeningMonument()
 {
-    scene::IMesh* mesh;
-    scene::IMeshSceneNode* node;
-    // stairs
-    mesh = getMesh("monument_stairs.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    node = m_smgr->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(core::vector3df(45.0f,45.0f,45.0f));
-        node->setRotation(core::vector3df(0,180,0));
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(core::vector3df(8800*2,200*2,29800*2));
-        node->setMaterialTexture( 0, texture("camen.jpg") );
-        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
-        node->getMaterial(0).getTextureMatrix(1).setTextureScale(10,10);
-        node->setMaterialType(video::EMT_DETAIL_MAP);
-        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node,m_player,m_smgr);
-    }
+//    scene::IMesh* mesh;
+//    scene::IMeshSceneNode* node;
+//    // stairs
+//    mesh = getMesh("monument_stairs.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    node = m_smgr->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(core::vector3df(45.0f,45.0f,45.0f));
+//        node->setRotation(core::vector3df(0,180,0));
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setPosition(core::vector3df(8800*2,200*2,29800*2));
+//        node->setMaterialTexture( 0, texture("camen.jpg") );
+//        node->setMaterialTexture( 1, texture("grass_dirty.jpg"));
+//        node->getMaterial(0).getTextureMatrix(1).setTextureScale(10,10);
+//        node->setMaterialType(video::EMT_DETAIL_MAP);
+//        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
+//        Collision::setCollision(node,m_player,m_smgr);
+//    }
     createPlane(8680*2,180*2,29800*2,13.6,10,0,0,5);
     createPlane(9335*2,285*2,29800*2,13.6,23,0,0,0);
     createPlane(9997*2,285*2,29800*2,25,30,0,0,0);
     // monument
-    mesh = getMesh("monument.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    node = m_smgr->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(core::vector3df(45.0f,45.0f,45.0f));
-        node->setRotation(core::vector3df(0,90,0));
-        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(core::vector3df(20040,600,59600));
-        node->setMaterialTexture(0, texture("lenin.png") );
-        node->setMaterialTexture(1, texture("grass_dirty.jpg"));
-        node->getMaterial(0).getTextureMatrix(1).setTextureScale(10,10);
-        node->setMaterialType(video::EMT_DETAIL_MAP);
-        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
-        Collision::setCollision(node,m_player,m_smgr);
-    }
+//    mesh = getMesh("monument.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    node = m_smgr->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(core::vector3df(45.0f,45.0f,45.0f));
+//        node->setRotation(core::vector3df(0,90,0));
+//        node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setPosition(core::vector3df(20040,600,59600));
+//        node->getMaterial(0).setTexture(0, texture("lenin.png"));
+//        node->getMaterial(0).setTexture(1, texture("grass_dirty.jpg"));
+//        node->getMaterial(0).getTextureMatrix(1).setTextureScale(10,10);
+//        node->getMaterial(0).MaterialType = video::EMT_DETAIL_MAP;
+//        node->setMaterialFlag(video::EMF_FOG_ENABLE, m_fog);
+//        Collision::setCollision(node,m_player,m_smgr);
+//    }
 
     return 0;
 }
