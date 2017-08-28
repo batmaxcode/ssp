@@ -51,7 +51,11 @@ int FountainSquareNode::initFountainNew()
         node->getMaterial(4).setTexture(1, texture("grass_dirty.jpg"));
         node->getMaterial(4).getTextureMatrix(1).setTextureScale(10,10);
         node->getMaterial(4).MaterialType = video::EMT_DETAIL_MAP;
-        node->getMaterial(5).setTexture(0, texture("iron.jpg") );
+        node->getMaterial(5).setTexture(0, texture("plita-daleko.png"));
+        node->getMaterial(5).setTexture(1, texture("plita-2.jpg"));
+        node->getMaterial(5).MaterialType = video::EMT_DETAIL_MAP;
+        node->getMaterial(5).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMaterial(6).setTexture(0, texture("iron.jpg") );
 
         Collision::setCollision(node,m_player,m_smgr);
     }

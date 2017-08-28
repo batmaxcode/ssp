@@ -36,9 +36,19 @@ int AttractionSquareNode::initTrack()
         node->setRotation(core::vector3df(0,150,0));
         //node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
         //node->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-        node->setMaterialTexture( 0, texture("metal_rzav.jpg") );
-//        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+        node->getMaterial(0).setTexture( 0, texture("metal_rzav.jpg") );
+        node->getMaterial(1).setTexture( 0, texture("iron_green.jpg") );
+        node->getMaterial(2).setTexture( 0, texture("iron_gray.jpg") );
+        node->getMaterial(3).setTexture( 0, texture("iron_gray.jpg") );
+        node->getMaterial(4).setTexture( 0, texture("iron_blue.jpg") );
+        node->getMaterial(5).setTexture( 0, texture("iron_yellow.jpg") );
+        node->getMaterial(6).setTexture( 0, texture("iron.jpg") );
+        node->getMaterial(7).setTexture( 0, texture("rotor.png") );
+        node->getMaterial(8).setTexture( 0, texture("rotor.png") );
+        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
         node->getMaterial(0).getTextureMatrix(0).setTextureScale(30,30);
+
+
         //node->addShadowVolumeSceneNode(0,-1,false,10000);
         //node->getMaterial(0).NormalizeNormals = true;
 //        node->getMaterial(0).TextureLayer[0].BilinearFilter = true;

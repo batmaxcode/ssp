@@ -719,31 +719,31 @@ int GamePark::initGarbage()
 
 int GamePark::initPlanes()
 {
-    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"main_plane.b3d");
-    if (!mesh)
-    {
-        m_device->drop();
-        return 1;
-    }
-    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
-    if (node)
-    {
-        node->setScale(core::vector3df(45.0f,45.0f,45.0f));
-        node->setRotation(core::vector3df(0,90,0));
-        if(!shadows)
-            node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-        node->setPosition(core::vector3df(7950*2,150*2,29850*2));
-        node->setMaterialTexture( 0, texture("plita-daleko.png") );
-        node->setMaterialTexture( 1, texture("plita-2.jpg") );
-        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
+//    scene::IMesh* mesh = smgr()->getMesh(Common::modelsPath()+"main_plane.b3d");
+//    if (!mesh)
+//    {
+//        m_device->drop();
+//        return 1;
+//    }
+//    scene::IMeshSceneNode* node = smgr()->addMeshSceneNode( mesh );
+//    if (node)
+//    {
+//        node->setScale(core::vector3df(45.0f,45.0f,45.0f));
+//        node->setRotation(core::vector3df(0,90,0));
+//        if(!shadows)
+//            node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+//        node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//        node->setPosition(core::vector3df(7950*2,150*2,29850*2));
+//        node->setMaterialTexture( 0, texture("plita-daleko.png") );
+//        node->setMaterialTexture( 1, texture("plita-2.jpg") );
+//        node->getMaterial(0).TextureLayer[0].AnisotropicFilter = 16;
 
-        node->setMaterialType(video::EMT_DETAIL_MAP);
+//        node->setMaterialType(video::EMT_DETAIL_MAP);
 
-        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
+//        node->getMesh()->setHardwareMappingHint(irr::scene::EHM_STATIC);
 
-    }
-    setCollision(node,m_player);
+//    }
+//    setCollision(node,m_player);
     return 0;
 }
 
