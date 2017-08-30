@@ -21,7 +21,7 @@ int AttractionSquareNode::initTrack()
 {
     scene::IMesh* mesh;
     scene::IMeshSceneNode* node;
-    mesh = getMesh("track.b3d");
+    mesh = getMesh("attractions.b3d");
     if (!mesh)
     {
         m_device->drop();
