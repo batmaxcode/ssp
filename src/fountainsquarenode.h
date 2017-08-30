@@ -11,6 +11,7 @@ public:
     FountainSquareNode(irr::IrrlichtDevice* device, Player* player);
 
     int load();
+    irr::scene::ISceneNode* node();
 
 private:
     int initFountainNew();
@@ -19,6 +20,8 @@ private:
     int initFlagpole();
     int initOpeningMonument();
     int initStoneBench();
+
+    irr::scene::ISceneNode* m_node;
 
     int createPlane(int x, int y,int z,int u,int v,int rx,int ry,int rz);
 };

@@ -8,6 +8,7 @@ class Player
 {
 public:
     Player(irr::IrrlichtDevice* device);
+    ~Player();
 
     irr::core::vector3df ellipsoid() const;
     irr::scene::ICameraSceneNode* camera() const;

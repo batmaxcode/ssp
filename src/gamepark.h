@@ -110,9 +110,10 @@ private:
     HotelSceneNode* m_hotelSceneNode = nullptr;
 
 
+    scene::IAnimatedMeshSceneNode* m_aiNode = nullptr;
     scene::IAnimatedMeshSceneNode* m_movableNode = nullptr;
-    unsigned short m_checkLodCounter;
-    unsigned short m_checkFpsCounter;
+    unsigned short m_checkLodCounter = 0;
+    unsigned short m_checkFpsCounter= 0;
 
     void grassGen(f32 x,f32 y,f32 z, f32 u = 35,f32 v = 35, f32 s = 8);
     void forestLOD(core::vector3df pos);
@@ -141,6 +142,7 @@ private:
     int initGarbage();
     int initPlanes();
     int initSounds();
+    int initAI();
     int initEagle(core::vector3df center, float radius, float speed = 0.2);
     void setCollision(scene::IAnimatedMeshSceneNode* node,
                       Player* player);

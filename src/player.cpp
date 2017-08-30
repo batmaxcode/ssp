@@ -101,9 +101,19 @@ Player::Player(IrrlichtDevice* device) :
 
 }
 
+
+Player::~Player()
+{
+    m_walkSound->drop();
+    m_walkSound = nullptr;
+    m_shotSound->drop();
+    m_shotSound = nullptr;
+}
+
+
 irr::core::vector3df Player::ellipsoid() const
 {
-    return core::vector3df(250,350,250);
+    return core::vector3df(250,400,250);
 }
 
 irr::scene::ICameraSceneNode* Player::camera() const

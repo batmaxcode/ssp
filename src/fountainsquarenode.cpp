@@ -19,6 +19,11 @@ int FountainSquareNode::load()
     return 0;
 }
 
+scene::ISceneNode *FountainSquareNode::node()
+{
+    return m_node;
+}
+
 int FountainSquareNode::initFountainNew()
 {
     scene::IMesh* mesh;
@@ -58,6 +63,8 @@ int FountainSquareNode::initFountainNew()
         node->getMaterial(6).setTexture(0, texture("iron.jpg") );
 
         Collision::setCollision(node,m_player,m_smgr);
+
+        m_node = node;
     }
     return 0;
 }

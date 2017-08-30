@@ -40,6 +40,10 @@ GamePark::~GamePark()
     delete m_player;
     delete m_fountainSquareNode;
     delete m_childSquareNode;
+    delete m_attractionSquareNode;
+    delete m_churchSceneNode;
+    delete m_hotelSceneNode;
+    m_soundEngine->drop();
 }
 
 void GamePark::exit()
@@ -51,7 +55,7 @@ int GamePark::initWorld()
 {
     initTerrain();
 //    initWater();
-    initForest();
+//    initForest();
 //    initShrub();
     initScam();
 ////    initBench();
@@ -70,6 +74,7 @@ int GamePark::initWorld()
     initHotel();
     initEagle(core::vector3df(12000,2300,56000), 3900.0f, 0.08f);
     initEagle(core::vector3df(17000,2800,50000), 4200.0f, 0.06f);
+    initAI();
     return 0;
 }
 
@@ -776,6 +781,34 @@ int GamePark::initSounds()
        music->setVolume(1.0f);
     }
 
+//    m_soundEngine->drop();
+
+    return 0;
+}
+
+int GamePark::initAI()
+{
+    scene::IAnimatedMesh* mesh;
+
+    core::vector3df pos(11520, 554, 57540);
+
+    mesh = smgr()->getMesh(Common::modelsPath()+"sydney.md2");
+    if (!mesh)
+    {
+        m_device->drop();
+        return 1;
+    }
+    m_aiNode = smgr()->addAnimatedMeshSceneNode( mesh );
+    if (m_aiNode)
+    {
+        m_aiNode->setMaterialTexture(0, texture("sydney.bmp"));
+        m_aiNode->setPosition(pos);
+        m_aiNode->setScale(core::vector3df(5,5,5));
+        m_aiNode->setMD2Animation(scene::EMAT_STAND);
+        m_aiNode->setMaterialFlag(video::EMF_LIGHTING, true);
+        m_aiNode->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+    }
+    setCollision(m_aiNode, m_player);
     return 0;
 }
 
@@ -801,11 +834,11 @@ int GamePark::initEagle(core::vector3df center, float radius, float speed)
         eagleNode->setFrameLoop(0,15);
         eagleNode->setAnimationSpeed(12);
 
-        scene::ISceneNodeAnimator* anim = 0;
+        scene::ISceneNodeAnimator* anim;
         anim = smgr()->createFlyCircleAnimator(center, radius,
                                                (2*core::PI/1000.0f)*speed);
         eagleNode->addAnimator(anim);
-
+anim->drop();
         anim = smgr()->createRotationAnimator(core::vector3df(0,(3.6)*speed,0));
         eagleNode->addAnimator(anim);
         eagleNode->setName("eagle");
@@ -983,7 +1016,7 @@ int GamePark::run()
     {
         driver()->beginScene(true, true, 0 );
 
-        forestLOD(m_player->camera()->getPosition());
+//        forestLOD(m_player->camera()->getPosition());
 
         smgr()->drawAll();
 //// Для размытия
@@ -1024,6 +1057,43 @@ int GamePark::run()
         // перемещаем указку(билборд) в точку столкновения
         // и рисуем треугольник в котором она находится
 
+
+        // test ai
+        SMaterial m;
+        m.Lighting = false;
+        driver()->setMaterial(m);
+        core::vector3df nodePos = m_player->node()->getAbsolutePosition();
+        core::vector3df t1Pos = m_aiNode->getAbsolutePosition();
+
+
+        core::line3d<f32> ray2;
+        ray2.start = t1Pos;
+        ray2.end = nodePos;
+        driver()->draw3DLine(ray2.start,ray2.end,SColor(255,255,255,255));
+
+        // переменная под хранение точки пересещения
+        core::vector3df intersection2;
+        // переменная под хранение треугольника с которым пересекся луч
+        core::triangle3df hitTriangle2;
+
+        scene::ISceneNode * selectedSceneNode2 =
+        collMan->getSceneNodeAndCollisionPointFromRay(
+        ray2,
+        intersection2, // точка столкновения
+        hitTriangle2, // полигон(треугольник) в котором
+        // точка столкновения
+        IDFlag_IsPickable, // определять столкновения только для
+        //нод с идентификатором IDFlag_IsPickable
+        0); // проверять относительно всей
+        // сцены (оставляем значение по умолчанию)
+
+        bill->setPosition(intersection2);
+        if(selectedSceneNode2 != m_fountainSquareNode->node())
+        {
+            Log::log("i see you");
+        }
+
+        // end test ai
 
 
 
